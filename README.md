@@ -54,8 +54,8 @@ SIM HMSE adalah sistem informasi internal yang dibangun untuk membantu pengurus 
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/<username>/PT3-HMSE-TUP.git
-cd PT3-HMSE-TUP/SIM\ HMSE
+git clone https://github.com/Research-and-Creativity/sim-hmse.git
+cd sim-hmse
 
 # 2. Jalankan setup otomatis (install dependencies, generate key, migrate, build assets)
 composer setup
