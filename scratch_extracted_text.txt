@@ -1,0 +1,336 @@
+﻿Tab 1
+Tab 2
+PROPOSAL KEGIATAN
+NAMA KEGIATAN
+HIMPUNAN MAHASISWA SOFTWARE ENGINEERING
+UNIT KEGIATAN MAHASISWA
+HIMPUNAN MAHASISWA SOFTWARE ENGINEERING
+TELKOM UNIVERSITY PURWOKERTO
+2026
+Nama Kegiatan 
+Nama kegiatan ini adalah.
+Tema Kegiatan
+Tema kegiatan ini adalah â€œ  â€
+Latar Belakang
+Tujuan Kegiatan
+Tujuan dari kegiatan ini adalah:
+Manfaat Kegiatan 
+Manfaat dari kegiatan ini adalah :
+Peserta
+Waktu dan Tempat
+Kegiatan ini akan dilaksanakan pada:
+Hari/Tanggal
+: 
+Pukul
+: 
+Tempat
+:  
+Susunan Panitia
+Terlampir (Lampiran I)
+Rencana Anggaran Dana
+Terlampir (Lampiran II)
+Susunan Acara
+Terlampir (Lampiran III)
+Mitigasi Risiko
+No
+Uraian Kegiatan
+Identifikasi Bahaya
+Penilaian Risiko
+Tingkat Risiko
+Pengendalian Risiko
+Penanggung Jawab
+Peluang/ Kemungkinan
+Akibat/ Keparahan
+1
+2
+3
+4
+5
+6
+7
+8
+1
+Contoh:
+Outbond
+Tenggelam
+3
+3
+9
+Menyediakan Pelampung dan ambulance
+Halim
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Â 
+Keterangan :
+Tabel Peluang/Kemungkinan
+Tingkatan
+Kriteria
+Penjelasan
+1
+Jarang/kecilkemungkinanterjadi
+Risiko kejadian mungkin terjadi pada beberapakondisi tertentu, namun kecil kemungkinanterjadinya
+2
+Sedang/mungkinterjadi
+Risiko kejadian mungkin akan terjadi padabeberapa kondisi tertentu
+3
+Sering/hampirpasti terjadi
+Risiko kejadian pasti akan terjadi pada semuakondisi/setiap kegiatan yang dilakukan Ormawa
+Tabel Akibat/Keparahan
+Tingkatan
+Kriteria
+Penjelasan
+1
+Rendah
+Luka ringan, tidak menimbulkan cedera, dan peluang dampak terhadap material, sosial, maupun psikis cukup rendah
+2
+Sedang
+Memerlukan perawatan medis dan mengakibatkanhilangnya hari kerja / hilangnya fungsi anggota tubuhuntuk sementara waktu, dan berdampak cukup besar baik secara material, sosial maupun psikis
+3
+Tinggi
+Cedera yang mengakibatkan kecacatan / hilangnyafungsi tubuh secara total hingga menyebabkan hilangnya nyawa, dan memberikan dampak besar baik secara material, sosial maupun psikis
+Penilaian Tingkat Risiko = peluang/kemungkinan x akibat/keparahan
+Nilai 1 dan 2 = Risiko rendah
+Nilai 3 dan 4 = Risiko sedang
+Nilai 6 dan 9 = Risiko tinggi
+Keterangan Tindakan:
+Rendah
+:
+1.
+Risiko cukup ditangani dengan prosedur rutin yang berlaku
+2.
+Melibatkan panitia/tim yang telah dibentuk
+Sedang
+:
+Risiko ditangani dengan melibatkan pimpinan bidang kemahasiswaan tingkat fakultas atau perguruan tinggi, dosen pembina, dan/atau tenaga kependidikan, dapat segera diambil tindakan penanganan.
+Tinggi
+:
+1.
+Risiko tinggi memerlukan perencanaan khusus pada pimpinan bidang dan tindakan segera
+2.
+Risiko tinggi wajib melibatkan tindakan dari top managemen.
+Pengendalian risiko
+Melakukan penurunan derajat probabilitas dan konsekuensi dalam pelaksanaan kegiatan Ormawa dengan menggunakan berbagai alternatif metode/pengembangan strategi/mitigasi risiko
+Penanggung jawab risiko
+Pelaksanaan kegiatan Ormawa membutuhkan penanggung jawab yang dapat menjadi advisor bagi mahasiswa dalam perencanaan, pelaksanaan maupun evaluasi implementasi penanganan/pengendalian risiko.
+ Capaian Pelaksanaan Program (CPP)
+Target Capaian Pelaksanaan Program (CPP) pada pelaksanaan kegiatan Ormawa ini sebagai berikut:
+No
+Capaian Pelaksanaan Program (CPP)
+Keterangan
+Target
+1.
+Integritas
+Mampu berkata benar, bersikap jujur, dapat dipercaya dan bertindak profesional
+2.
+Tanggung Jawab
+Mampu bertanggung jawab dalam menyelesaikan tugas dan kewajiban hingga tuntas, tepat waktu, untuk mencapai hasil yang terbaik
+3.
+Kedisiplinan
+Mampu mencerminkan sikap ketaatan secara sadar, sukarela dan senang hati dari individu terhadap peraturan dan ketaatan terhadap prosedur
+4.
+Kerjasama
+Mampu melakukan kerja sama yang harmonis dan efektif untuk mencapai tujuan bersama dengan mengutamakan kepentingan perusahaan
+5.
+Kepemimpinan
+Mampu memberi arahan yang jelas, menyelesaikan konflik dengan win-win solution, mau menerima umpan balik dan menjadi panutan bagi lingkungannya
+6.
+Komunikasi Efektif
+Mampu melakukan komunikasi yang terbuka, efektif dan bertanggung jawab serta mengikuti norma dan etika
+7.
+Memotivasi diri
+Mampu mengembangkan diri untuk mencapai target dan menjadikan kesulitan sebagai tantangan
+8.
+Pengelolaan diri
+Mampu mengendalikan diri bersikap tenang dan tidak lepas kontrol emosi dalam menghadapi kesulitan dan tantangan
+9.
+Adaptif
+Mampu menyesuaikan diri dengan cepat terhadap perubahan, menyumbangkan gagasan, inovatif dan menjadi agen perubahan
+10.
+Kompetitif
+Mampu meningkatkan rasa kompetitif dan daya juang dalam diri mahasiswa
+*Centang target yang sesuai
+Penutup
+Harap diisi       Risiko :
+Rendah
+Sedang
+Tinggi
+HALAMAN PENGESAHAN
+Purwokerto, â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦..
+Ketua Panitia
+Sekretaris
+Nama Ketua
+Nama Sekretaris
+Menyetujui,
+PembinaHimpunan Mahasiswa Software Engineering
+KetuaHimpunan Mahasiswa Software Engineering
+Yudha Islami Sulistya, S.Kom., M.Cs
+NIDN. 0609020001
+Quratu Ayun Defaren
+NIM. 103122400064
+Mengetahui,
+Kepala UrusanKemahasiswaan, Karier dan Alumni
+Ketua Program StudiS1 Rekayasa Perangkat Lunak
+Kadarisman, S.Si
+NIP. 22960016
+Abednego Dwi Septiadi, S.Kom., M.Kom
+NIP. 22890018
+Wakil Direktur
+Bidang Akademik & Riset
+Dr. Catur Nugroho, S.Sos., M.I.Kom.
+NIP. 14780035-1
+Lampiran I Susunan Panitia Institusi Berisiko Sedang/Rendah
+SUSUNAN PANITIA KEGIATAN
+NAMA KEGIATAN
+HIMPUNAN MAHASISWA SOFTWARE ENGINEERING
+TELKOM UNIVERSITY PURWOKERTO
+Pelindung
+:
+Wakil Direktur Bidang Akademik & Riset
+Pengarah
+:
+Kepala Urusan Kemahasiswaan, Karier dan Alumni
+Penanggung Jawab
+:
+Kepala Program Studi
+Pembina
+:
+1.
+Yudha Islami Sulistya, S.Kom,.M.Cs
+[NIDN. 0609020001]
+2.
+Gita Fadila Fitriana, S.Kom., M.Kom.
+[NIDN.0620039302]
+Steering Committee
+1. 
+Quratu Ayun Defaren
+[NIM. 103122400064]
+2. 
+Muhammad Rasyid Ridho
+[NIM. 103122400018]
+3.
+kadep proker
+[NIM]
+Pelaksana
+Ketua Panitia
+:
+Mahasiswa
+[NIM]
+Wakil
+:
+Mahasiswa
+[NIM]
+Sekretaris
+:
+Mahasiswa
+[NIM]
+Bendahara(apabila menggunakan anggaran besar, dibagian bendahara perlu melibatkan dosen)
+:
+Mahasiswa
+[NIM]
+Seksi-Seksi
+:
+Mahasiswa
+[NIM]
+Lampiran III
+RANCANGAN ANGGARAN
+NAMA KEGIATAN
+HIMPUNAN MAHASISWA SOFTWARE ENGINEERING
+ TELKOM UNIVERSITY PURWOKERTO
+No
+Tanggal
+Rincian
+Vol
+Satuan
+Harga
+Sub Total
+Keterangan
+PEMASUKAN
+1
+Subsidi Institusi
+1
+Paket
+Jumlah pendanaan
+Jumlah pendanaan
+2
+Sponsor/Danus/Iuran
+(apabila ada)
+1
+Paket
+Jumlah pendanaan
+Jumlah pendanaan
+Total Pemasukan
+Jumlah pendanaan
+PENGELUARAN
+1
+pengeluaran
+1
+Paket
+Jumlah
+pengeluaran
+Jumlah
+pengeluaran
+Pembagian Pemasukkan
+â€¦dst
+Total Pengeluaran
+Jumlah
+pengeluaran
+Selisih Pemasukan & Pengeluaran
+0 
+Pemasukan
+(Pemasukan harus logic, sponsor/danus yang terlalu besar apabila sebatas baru rencana tidak diperbolehkan, kecuali dana sudah tersedia.
+Untuk tarikan/iuran kepada mahasiswa sifatnya tidak boleh mewajibkan.
+Pengeluaran
+Antara pemasukan dan pengeluaran harus sama nilainya  atau dengan kata lain tidak ada selisih kekurangan,
+Harus ada kepastian anggaran sebelum kegiatan dilakukan.
+Keterangan
+Apabila terdapat lebih dari satu pemasukkan maka terdapat penambahan baris yang berisi keterangan pengeluaran tersebut masuk kedalam anggaran pemasukkan yang mana
+Lampiran IV
+SUSUNAN ACARA KEGIATAN
+NAMA KEGIATAN
+HIMPUNAN MAHASISWA SOFTWARE ENGINEERING
+ TELKOM UNIVERSITY PURWOKERTO
