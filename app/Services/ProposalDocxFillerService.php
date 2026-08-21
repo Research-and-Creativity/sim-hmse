@@ -18,16 +18,11 @@ class ProposalDocxFillerService
         $templatePath = $this->getTemplatePath($riskLevel);
 
         if (!file_exists($templatePath)) {
-            throw new \Exception("Template file tidak ditemukan: {$templatePath}");
+            throw new \Exception("Template proposal belum tersedia, hubungi admin.");
         }
 
         // Copy template to a temp file
-        $outputDir = storage_path('app/proposals/temp');
-        if (!is_dir($outputDir)) {
-            mkdir($outputDir, 0755, true);
-        }
-
-        $outputPath = $outputDir . '/proposal_' . uniqid() . '.docx';
+        $outputPath = sys_get_temp_dir() . '/proposal_' . uniqid() . '.docx';
         copy($templatePath, $outputPath);
 
         // Open DOCX (it's a ZIP), replace text in word/document.xml
@@ -41,7 +36,7 @@ class ProposalDocxFillerService
      */
     private function getTemplatePath(string $riskLevel): string
     {
-        $dir = storage_path('app/templates/proposals');
+        $dir = resource_path('templates/proposals');
 
         if ($riskLevel === 'high') {
             return $dir . '/RESIKO TINGGI.docx';

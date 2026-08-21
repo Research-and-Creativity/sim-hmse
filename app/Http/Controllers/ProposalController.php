@@ -151,7 +151,7 @@ class ProposalController extends Controller
 
         try {
             $filePath = $this->proposalService->generatePdf($proposal);
-            return response()->download(Storage::path($filePath));
+            return Storage::download($filePath);
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal generate PDF: ' . $e->getMessage());
         }
@@ -391,13 +391,13 @@ class ProposalController extends Controller
             ? 'template-proposal-tinggi.docx'
             : 'template-proposal-rendah.docx';
 
-        $filePath = 'templates/proposals/' . $filename;
+        $filePath = resource_path('templates/proposals/' . $filename);
 
-        if (!Storage::exists($filePath)) {
-            return back()->with('error', 'File template tidak ditemukan.');
+        if (!file_exists($filePath)) {
+            return back()->with('error', 'Template proposal belum tersedia, hubungi admin.');
         }
 
-        return Storage::download($filePath, $filename);
+        return response()->download($filePath, $filename);
     }
 
     public function preview(Request $request)

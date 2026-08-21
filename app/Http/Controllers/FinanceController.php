@@ -155,7 +155,7 @@ class FinanceController extends Controller
 
         $attachmentPath = null;
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('attachments', 'public');
+            $attachmentPath = $request->file('attachment')->store('attachments');
         }
 
         $createdBy = auth()->id();
@@ -217,9 +217,9 @@ class FinanceController extends Controller
 
         if ($request->hasFile('attachment')) {
             if ($transaction->attachment) {
-                \Storage::disk('public')->delete($transaction->attachment);
+                \Storage::delete($transaction->attachment);
             }
-            $validated['attachment'] = $request->file('attachment')->store('attachments', 'public');
+            $validated['attachment'] = $request->file('attachment')->store('attachments');
         }
 
         $transaction->update($validated);
@@ -233,7 +233,7 @@ class FinanceController extends Controller
         $finance = FinanceInternal::findOrFail($id);
 
         if ($finance->attachment) {
-        \Storage::disk('public')->delete($finance->attachment);
+            \Storage::delete($finance->attachment);
         }
 
         $finance->delete();

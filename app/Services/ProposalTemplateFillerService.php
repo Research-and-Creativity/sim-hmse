@@ -22,10 +22,10 @@ class ProposalTemplateFillerService
     {
         // Get template filename based on risk level
         $templateFilename = $this->getTemplateFilename($proposal->risk_level);
-        $templatePath = storage_path('app/templates/proposals/' . $templateFilename);
+        $templatePath = resource_path('templates/proposals/' . $templateFilename);
 
         if (!file_exists($templatePath)) {
-            throw new \Exception("Template file not found: {$templateFilename}");
+            throw new \Exception("Template proposal belum tersedia, hubungi admin.");
         }
 
         // Load template using PHPWord
@@ -35,8 +35,7 @@ class ProposalTemplateFillerService
         $this->replacePlaceholders($phpWord, $proposal);
 
         // Save to temporary file
-        $outputPath = storage_path('app/proposals/' . $proposal->id . '_' . uniqid() . '.docx');
-        @mkdir(dirname($outputPath), 0755, true);
+        $outputPath = sys_get_temp_dir() . '/proposal_' . $proposal->id . '_' . uniqid() . '.docx';
 
         // Save document
         $writer = IOFactory::createWriter($phpWord, 'Word2007');
@@ -51,7 +50,7 @@ class ProposalTemplateFillerService
     private function getTemplateFilename(string $riskLevel): string
     {
         // Check which template file is available in the folder
-        $templateDir = storage_path('app/templates/proposals');
+        $templateDir = resource_path('templates/proposals');
         $files = @scandir($templateDir) ?: [];
 
         // Filter only DOCX files
@@ -60,7 +59,7 @@ class ProposalTemplateFillerService
         });
 
         if (empty($docxFiles)) {
-            throw new \Exception("No template files found in storage/app/templates/proposals/");
+            throw new \Exception("Template proposal belum tersedia, hubungi admin.");
         }
 
         // Search by risk level
