@@ -62,7 +62,7 @@
                         x-transition:leave-end="opacity-0 translate-y-1"
                         class="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-50"
                     >
-                        <a href="https://zetech.telkomuniversity.ac.id" target="_blank"
+                        <a href="https://zetech.id" target="_blank"
                            class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 hover:text-[#2C3DA6] hover:bg-blue-50 transition-colors duration-150">
                             <svg class="w-4 h-4 text-[#00C4D8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
