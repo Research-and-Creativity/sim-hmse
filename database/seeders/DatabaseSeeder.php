@@ -19,12 +19,12 @@ class DatabaseSeeder extends Seeder
         // 1. Roles Dasar
         DB::table('roles')->updateOrInsert(
             ['id' => 1],
-            ['name' => 'Admin', 'created_at' => now(), 'updated_at' => now()]
+            ['name' => 'admin', 'created_at' => now(), 'updated_at' => now()]
         );
         
         DB::table('roles')->updateOrInsert(
             ['id' => 2],
-            ['name' => 'Pengurus', 'created_at' => now(), 'updated_at' => now()]
+            ['name' => 'pengurus', 'created_at' => now(), 'updated_at' => now()]
         );
 
         // 2. Akun Admin Utama
@@ -39,7 +39,6 @@ class DatabaseSeeder extends Seeder
                 'jabatan'           => 'admin',
                 'divisi'            => 'Administrasi',
                 'nim_nip'           => 'ADMIN001',
-                'email_verified_at' => now(),
                 'created_at'        => now(),
                 'updated_at'        => now(),
             ]

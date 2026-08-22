@@ -152,7 +152,6 @@ class UserSeeder extends Seeder
                 ['email' => $user['email']],
                 array_merge($user, [
                     'role_id'           => $user['role'] === 'pengurus' ? 2 : 1,
-                    'email_verified_at' => now(),
                     'created_at'        => now(),
                     'updated_at'        => now(),
                 ])

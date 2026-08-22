@@ -8,7 +8,7 @@
     <title>{{ $title ?? 'Dashboard' }} — SIM HMSE</title>
     <meta name="description" content="Sistem Informasi Manajemen HMSE Telkom University Purwokerto">
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-zenit.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700,800&display=swap" rel="stylesheet">
 
