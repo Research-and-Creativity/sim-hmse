@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'role_id',
         'jabatan',
         'nim_nip',
         'divisi',

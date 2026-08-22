@@ -38,11 +38,25 @@ class ProposalDocxFillerService
     {
         $dir = resource_path('templates/proposals');
 
-        if ($riskLevel === 'high') {
-            return $dir . '/RESIKO TINGGI.docx';
+        $candidates = $riskLevel === 'high'
+            ? ['RESIKO TINGGI.docx', 'template-proposal-tinggi.docx', 'RESIKO_TINGGI.docx']
+            : ['RESIKO SEDANG_RENDAH.docx', 'template-proposal-rendah.docx', 'RESIKO_SEDANG_RENDAH.docx'];
+
+        foreach ($candidates as $candidate) {
+            if (file_exists($dir . '/' . $candidate)) {
+                return $dir . '/' . $candidate;
+            }
         }
 
-        return $dir . '/RESIKO SEDANG_RENDAH.docx';
+        // Fallback: any available docx in the folder
+        $files = @scandir($dir) ?: [];
+        foreach ($files as $file) {
+            if (str_ends_with(strtolower($file), '.docx')) {
+                return $dir . '/' . $file;
+            }
+        }
+
+        return $dir . ($riskLevel === 'high' ? '/template-proposal-tinggi.docx' : '/template-proposal-rendah.docx');
     }
 
     /**

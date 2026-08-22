@@ -44,41 +44,100 @@ class ProposalController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'proker_id' => 'nullable|exists:program_kerjas,id',
-            'title' => 'required|string|max:255',
-            'background' => 'required|string',
-            'objective' => 'required|string',
-            'risk_level' => 'required|in:low,medium,high',
-            'risk_description' => 'required|string',
-            'budget' => 'required|numeric|min:0',
-            'timeline' => 'required|string|max:255',
-        ]);
+        $isSubmitting = $request->input('action') === 'submit';
 
-        // Create proposal (temporarily bypass auth, use dummy user_id 1)
-        $validated['user_id'] = auth()->id() ?? 1;
-        $proposal = Proposal::create($validated);
+        $rules = [
+            'proker_id'           => 'nullable|exists:program_kerjas,id',
+            'title'               => 'required|string|max:255',
+            'tema_kegiatan'       => 'nullable|string|max:255',
+            'jenis_kegiatan'      => 'nullable|string|max:100',
+            'tanggal_pelaksanaan' => 'nullable|string|max:100',
+            'waktu_pelaksanaan'   => 'nullable|string|max:100',
+            'tempat_pelaksanaan'  => 'nullable|string|max:255',
+            'timeline'            => 'nullable|string|max:255',
+            'ketua_panitia'       => 'nullable|string|max:255',
+            'divisi'              => 'nullable|string|max:150',
+            'background'          => $isSubmitting ? 'required|string' : 'nullable|string',
+            'objective'           => $isSubmitting ? 'required|string' : 'nullable|string',
+            'manfaat_kegiatan'    => 'nullable|string',
+            'bentuk_kegiatan'     => 'nullable|string',
+            'sasaran_peserta'     => 'nullable|string|max:255',
+            'risk_level'          => 'required|in:low,medium,high',
+            'risk_description'    => $isSubmitting ? 'required|string' : 'nullable|string',
+            'budget'              => 'nullable|numeric|min:0',
+            'penutup'             => 'nullable|string',
+        ];
+
+        $messages = [
+            'title.required'            => 'Nama / Judul Kegiatan wajib diisi.',
+            'background.required'       => 'Latar belakang wajib diisi sebelum mengajukan persetujuan.',
+            'objective.required'        => 'Tujuan kegiatan wajib diisi sebelum mengajukan persetujuan.',
+            'risk_description.required' => 'Identifikasi risiko wajib diisi sebelum mengajukan persetujuan.',
+            'risk_level.required'       => 'Tingkat risiko wajib dipilih.',
+        ];
+
+        $validated = $request->validate($rules, $messages);
+
+        // Extract sekretaris from panitia array if provided
+        $sekretaris = null;
+        if ($request->has('panitia_jabatan') && is_array($request->input('panitia_jabatan'))) {
+            foreach ($request->input('panitia_jabatan') as $idx => $jbt) {
+                if (str_contains(strtolower(trim($jbt)), 'sekretaris')) {
+                    $sekretaris = $request->input('panitia_nama')[$idx] ?? null;
+                    break;
+                }
+            }
+        }
+
+        $status = $isSubmitting ? 'reviewing' : 'draft';
+
+        $proposal = Proposal::create([
+            'user_id'             => auth()->id(),
+            'proker_id'           => $validated['proker_id'] ?? null,
+            'title'               => $validated['title'],
+            'status'              => $status,
+            'tema_kegiatan'       => $validated['tema_kegiatan'] ?? null,
+            'jenis_kegiatan'      => $validated['jenis_kegiatan'] ?? null,
+            'tanggal_pelaksanaan' => $validated['tanggal_pelaksanaan'] ?? null,
+            'waktu_pelaksanaan'   => $validated['waktu_pelaksanaan'] ?? null,
+            'tempat_pelaksanaan'  => $validated['tempat_pelaksanaan'] ?? null,
+            'timeline'            => $validated['timeline'] ?? null,
+            'ketua_panitia'       => $validated['ketua_panitia'] ?? (auth()->user()?->name ?? 'Ketua Panitia'),
+            'sekretaris'          => $sekretaris,
+            'divisi'              => $validated['divisi'] ?? (auth()->user()?->divisi ?? null),
+            'background'          => $validated['background'] ?? null,
+            'objective'           => $validated['objective'] ?? null,
+            'manfaat_kegiatan'    => $validated['manfaat_kegiatan'] ?? null,
+            'bentuk_kegiatan'     => $validated['bentuk_kegiatan'] ?? null,
+            'sasaran_peserta'     => $validated['sasaran_peserta'] ?? null,
+            'risk_level'          => $validated['risk_level'] ?? 'low',
+            'risk_description'    => $validated['risk_description'] ?? null,
+            'budget'              => $validated['budget'] ?? 0,
+            'penutup'             => $validated['penutup'] ?? null,
+        ]);
 
         // Create approval records for all required approvers
         $approvers = $this->proposalService->getRequiredApprovers($proposal->risk_level);
         foreach ($approvers as $approver) {
-            // Try to find a user by jabatan matching the approver role
             $approverUser = \App\Models\User::where('jabatan', $approver['role'])->first();
-            // Fallback to an admin user if specific approver not found
             $adminUser = \App\Models\User::where('role', 'admin')->first();
-            $approverId = $approverUser?->id ?? $adminUser?->id ?? ($validated['user_id'] ?? null);
+            $approverId = $approverUser?->id ?? $adminUser?->id ?? auth()->id();
 
             ProposalApproval::create([
-                'proposal_id' => $proposal->id,
-                'approver_id' => $approverId,
-                'approver_role' => $approver['role'],
+                'proposal_id'    => $proposal->id,
+                'approver_id'    => $approverId,
+                'approver_role'  => $approver['role'],
                 'approval_order' => $approver['order'],
-                'status' => 'pending',
+                'status'         => 'pending',
             ]);
         }
 
+        $message = $isSubmitting
+            ? 'Proposal "' . $proposal->title . '" berhasil diajukan untuk proses tanda tangan dan persetujuan!'
+            : 'Draft proposal "' . $proposal->title . '" berhasil disimpan di database!';
+
         return redirect()->route('dashboard.proposal.show', $proposal->id)
-            ->with('success', 'Proposal berhasil dibuat. Lanjutkan dengan melengkapi dan submit.');
+            ->with('success', $message);
     }
 
     /**

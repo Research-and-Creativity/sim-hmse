@@ -24,7 +24,7 @@
         </div>
     @endif
 
-    <form action="{{ route('proposals.store') }}" method="POST" x-data="{
+    <form action="{{ route('proposals.store') }}" method="POST" novalidate x-data="{
         activeSection: 'info',
         sections: [
             { id: 'info', label: 'Informasi Umum', icon: 'info' },
@@ -765,8 +765,8 @@
                                 </svg>
                                 Preview Proposal
                             </button>
-                            <button type="button"
-                                class="px-6 py-3 text-sm font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-colors">
+                            <button type="submit" name="action" value="submit" :disabled="isSaving"
+                                class="px-6 py-3 text-sm font-semibold text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-colors shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2">
                                 📨 Submit untuk Persetujuan
                             </button>
                         </div>

@@ -492,7 +492,15 @@ class DashboardController extends Controller
             default => 'other',
         };
 
-        $fileName = $validated['name'] ?: $file->getClientOriginalName();
+        $customName = trim($validated['name'] ?? '');
+        if ($customName !== '') {
+            $fileName = ($extension && !str_ends_with(strtolower($customName), '.' . $extension))
+                ? ($customName . '.' . $extension)
+                : $customName;
+        } else {
+            $fileName = $file->getClientOriginalName();
+        }
+
         $filePath = $file->store('documents');
 
         Document::create([
@@ -517,7 +525,19 @@ class DashboardController extends Controller
             return back()->with('error', 'File dokumen tidak ditemukan di penyimpanan.');
         }
 
-        return Storage::download($doc->file_path, $doc->name);
+        $extension = pathinfo($doc->file_path, PATHINFO_EXTENSION);
+        $downloadName = $doc->name;
+        if ($extension && !str_ends_with(strtolower($downloadName), '.' . strtolower($extension))) {
+            $downloadName .= '.' . $extension;
+        }
+
+        $mimeType = Storage::mimeType($doc->file_path) ?: 'application/octet-stream';
+        $headers = [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'attachment; filename="' . addslashes($downloadName) . '"',
+        ];
+
+        return Storage::download($doc->file_path, $downloadName, $headers);
     }
 
     public function documentsDestroy(string $id)
