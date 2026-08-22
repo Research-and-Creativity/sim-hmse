@@ -151,25 +151,21 @@
                     @endforeach
                 </div>
             @else
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 sm:p-12 text-center max-w-lg mx-auto mb-10">
-                    <div class="w-16 h-16 rounded-2xl bg-blue-50 text-[#2C3DA6] flex items-center justify-center mx-auto mb-4 border border-blue-100">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2zM16 3v4M8 3v4M3 11h18"/>
+                {{-- Empty State Sederhana & Menyatu --}}
+                <div class="py-10 px-4 text-center max-w-md mx-auto mb-4">
+                    <div class="w-12 h-12 rounded-full bg-gray-200/60 text-gray-400 flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-base font-bold text-gray-800 mb-1.5">Belum Ada Event Terbaru</h3>
-                    <p class="text-xs text-gray-500 max-w-sm mx-auto leading-relaxed">
-                        Saat ini belum ada event atau program kerja yang dibuka untuk publik. Pantau terus halaman ini atau media sosial HMSE untuk info kegiatan mendatang!
-                    </p>
+                    <p class="text-sm font-semibold text-gray-600">Belum ada event terbuka saat ini</p>
+                    <p class="text-xs text-gray-400 mt-1">Kegiatan dan program kerja HMSE mendatang akan segera diumumkan di sini.</p>
                 </div>
             @endif
 
             <div class="text-center">
                 <a href="{{ route('events.index') }}"
-                   class="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider border-2 transition-all duration-200 hover:text-white"
-                   style="border-color: #2C3DA6; color: #2C3DA6;"
-                   onmouseover="this.style.background='#2C3DA6'"
-                   onmouseout="this.style.background='transparent'">
+                   class="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider bg-transparent hover:bg-[#2C3DA6] border-[#2C3DA6] border-2 transition-all duration-200 text-[#2C3DA6] hover:text-white">
                     Lihat Semua Event
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? 'HMSE' }} — Himpunan Mahasiswa Software Engineering</title>
+    <title>{{ $title ?? 'HMSE' }} | Himpunan Mahasiswa Software Engineering</title>
     <meta name="description" content="{{ $description ?? 'Himpunan Mahasiswa Software Engineering Telkom University Purwokerto' }}">
 
     {{-- Favicon --}}
