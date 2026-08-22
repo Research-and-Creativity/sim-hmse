@@ -1,7 +1,10 @@
 {
-    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "$schema": "https://vercel.sh",
     "functions": {
-        "api/*.php": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.9.0"
+        },
+        "api/test.php": {
             "runtime": "vercel-php@0.9.0"
         }
     },
@@ -13,10 +16,6 @@
         {
             "src": "/build/(.*)",
             "dest": "/public/build/$1"
-        },
-        {
-            "src": "/(css|js|images|fonts|vendor)/(.*)",
-            "dest": "/public/$1/$2"
         },
         {
             "src": "/(.*)",
