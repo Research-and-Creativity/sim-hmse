@@ -67,7 +67,7 @@
                     {{-- Poster --}}
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
                         @if($event->poster)
-                            <img src="{{ str_starts_with($event->poster, 'http') ? $event->poster : asset('storage/' . $event->poster) }}"
+                            <img src="{{ \App\Services\StorageHelper::url($event->poster) }}"
                                  alt="Poster {{ $event->name }}"
                                  class="w-full object-cover max-h-[480px]">
                         @else

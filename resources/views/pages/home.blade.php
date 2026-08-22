@@ -199,7 +199,7 @@
                 @if(isset($gallery) && $gallery->count() > 0)
                     @foreach($gallery->take(8) as $item)
                         <div class="group relative aspect-square overflow-hidden rounded-xl cursor-pointer bg-gray-100">
-                            <img src="{{ str_starts_with($item->image, 'http') ? $item->image : asset('storage/' . $item->image) }}" alt="Dokumentasi HMSE"
+                            <img src="{{ \App\Services\StorageHelper::url($item->image) }}" alt="Dokumentasi HMSE"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
                                  style="background: rgba(44,61,166,0.5);">

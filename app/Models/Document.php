@@ -49,4 +49,9 @@ class Document extends Model
         }
         return '0 KB';
     }
+
+    public function getFileUrlAttribute(): ?string
+    {
+        return \App\Services\StorageHelper::url($this->file_path);
+    }
 }

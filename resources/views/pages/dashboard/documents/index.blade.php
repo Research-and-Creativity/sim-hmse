@@ -146,7 +146,7 @@
                 @foreach ($documents as $doc)
                     @php
                         $ic = $iconColors[$doc->file_type] ?? $iconColors['other'];
-                        $fileUrl = Storage::url($doc->file_path);
+                        $fileUrl = \App\Services\StorageHelper::url($doc->file_path);
                         $downloadUrl = route('dashboard.documents.download', $doc->id);
                         $docData = [
                             'id' => $doc->id,

@@ -174,4 +174,10 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard.proposal.download-docx');
 });
 
+// Storage Streaming Proxy (fallback untuk media private storage)
+Route::get('/storage-proxy/{path}', [DashboardController::class, 'storageProxy'])
+    ->where('path', '.*')
+    ->name('storage.proxy');
+
+
 

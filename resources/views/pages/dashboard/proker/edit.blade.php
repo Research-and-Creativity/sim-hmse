@@ -201,7 +201,7 @@
                     @php $prokerRow = \App\Models\ProgramKerja::find($formState['id']); @endphp
                     @if ($prokerRow?->poster)
                         <div class="mb-2">
-                            <img src="{{ asset('storage/' . $prokerRow->poster) }}" alt="Poster" class="h-32 rounded-lg object-cover border border-gray-200">
+                            <img src="{{ \App\Services\StorageHelper::url($prokerRow->poster) }}" alt="Poster" class="h-32 rounded-lg object-cover border border-gray-200" loading="lazy">
                             <p class="text-xs text-gray-400 mt-1">Poster saat ini. Upload baru untuk mengganti.</p>
                         </div>
                     @endif

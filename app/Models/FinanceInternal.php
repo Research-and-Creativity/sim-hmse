@@ -9,4 +9,9 @@ class FinanceInternal extends Model
     protected $guarded = [];
     protected $fillable = ['title', 'type', 'amount','method', 'transaction_date', 'description', 'attachment', 'created_by'];
     protected $dates = ['transaction_date']; // Pastikan ini untuk mengkonversi ke Carbon
+
+    public function getAttachmentUrlAttribute(): ?string
+    {
+        return \App\Services\StorageHelper::url($this->attachment);
+    }
 }

@@ -47,5 +47,10 @@ class ProgramKerja extends Model
     {
         return $this->hasMany(EventRegistration::class);
     }
+
+    public function getPosterUrlAttribute(): ?string
+    {
+        return \App\Services\StorageHelper::url($this->poster);
+    }
 }
 

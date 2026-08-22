@@ -39,24 +39,36 @@
         <div class="flex flex-col items-center gap-3">
             {{-- Kaprodi & Pembina --}}
             <div class="flex gap-3">
-                <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-center min-w-[140px]">
+                <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-center min-w-[140px] flex flex-col items-center">
+                    @if($kaprodi?->avatar)
+                        <img src="{{ \App\Services\StorageHelper::url($kaprodi->avatar) }}" alt="{{ $kaprodi->name }}" class="w-10 h-10 rounded-full object-cover mb-1.5 border border-gray-200" loading="lazy">
+                    @endif
                     <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Kaprodi</p>
                     <p class="text-sm font-bold text-gray-700">{{ $kaprodi?->name ?? '-' }}</p>
                 </div>
-                <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-center min-w-[140px]">
+                <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-center min-w-[140px] flex flex-col items-center">
+                    @if($pembina?->avatar)
+                        <img src="{{ \App\Services\StorageHelper::url($pembina->avatar) }}" alt="{{ $pembina->name }}" class="w-10 h-10 rounded-full object-cover mb-1.5 border border-gray-200" loading="lazy">
+                    @endif
                     <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Pembina</p>
                     <p class="text-sm font-bold text-gray-700">{{ $pembina?->name ?? '-' }}</p>
                 </div>
             </div>
             <div class="w-0.5 h-4 bg-gray-300"></div>
             {{-- President --}}
-            <div class="bg-gradient-to-br from-[#2C3DA6] to-[#00C4D8] text-white rounded-2xl px-8 py-4 text-center shadow-lg min-w-[200px]">
-                <p class="text-[10px] uppercase tracking-widest text-white/70 font-medium mb-1">President</p>
+            <div class="bg-gradient-to-br from-[#2C3DA6] to-[#00C4D8] text-white rounded-2xl px-8 py-4 text-center shadow-lg min-w-[200px] flex flex-col items-center">
+                @if($president?->avatar)
+                    <img src="{{ \App\Services\StorageHelper::url($president->avatar) }}" alt="{{ $president->name }}" class="w-12 h-12 rounded-full object-cover mb-2 border-2 border-white/40 shadow-sm" loading="lazy">
+                @endif
+                <p class="text-[10px] uppercase tracking-widest text-white/70 font-medium mb-0.5">President</p>
                 <p class="text-base font-bold">{{ $president?->name ?? 'Belum Ditentukan' }}</p>
             </div>
             <div class="w-0.5 h-4 bg-gray-300"></div>
             {{-- Vice President --}}
-            <div class="bg-white border-2 border-[#2C3DA6]/20 rounded-xl px-6 py-3 text-center min-w-[180px]">
+            <div class="bg-white border-2 border-[#2C3DA6]/20 rounded-xl px-6 py-3 text-center min-w-[180px] flex flex-col items-center">
+                @if($vicePresident?->avatar)
+                    <img src="{{ \App\Services\StorageHelper::url($vicePresident->avatar) }}" alt="{{ $vicePresident->name }}" class="w-10 h-10 rounded-full object-cover mb-1.5 border border-gray-200" loading="lazy">
+                @endif
                 <p class="text-[10px] text-[#2C3DA6] uppercase font-semibold tracking-wider">Vice President</p>
                 <p class="text-sm font-bold text-gray-700">{{ $vicePresident?->name ?? 'Belum Ditentukan' }}</p>
             </div>
@@ -91,7 +103,7 @@
                 @foreach ($members as $m)
                     <div class="flex items-center gap-4 px-6 py-3.5 hover:bg-gray-50/50 transition-colors">
                         @if ($m->avatar)
-                            <img src="{{ \Illuminate\Support\Facades\Storage::url($m->avatar) }}" alt="{{ $m->name }}" class="w-9 h-9 rounded-lg object-cover flex-shrink-0 border border-gray-200">
+                            <img src="{{ \App\Services\StorageHelper::url($m->avatar) }}" alt="{{ $m->name }}" class="w-9 h-9 rounded-lg object-cover flex-shrink-0 border border-gray-200" loading="lazy">
                         @else
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 font-bold text-xs"
                                  style="background: {{ $color }}20; color: {{ $color }};">

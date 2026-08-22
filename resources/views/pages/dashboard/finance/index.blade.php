@@ -170,7 +170,7 @@
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         @if ($tx->attachment)
-                                            <a href="{{ \Illuminate\Support\Facades\Storage::url($tx->attachment) }}" target="_blank"
+                                            <a href="{{ \App\Services\StorageHelper::url($tx->attachment) }}" target="_blank"
                                                 class="inline-flex p-1.5 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-[#2C3DA6] transition-colors"
                                                 title="Lihat bukti transaksi">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

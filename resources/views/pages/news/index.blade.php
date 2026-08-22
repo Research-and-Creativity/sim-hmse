@@ -108,7 +108,7 @@
                                 <div class="aspect-video bg-gray-100">
                                     @if($event->poster)
                                         <img
-                                            src="{{ str_starts_with($event->poster, 'http') ? $event->poster : asset('storage/' . $event->poster) }}"
+                                            src="{{ \App\Services\StorageHelper::url($event->poster) }}"
                                             alt="Poster {{ $event->name }}"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             loading="lazy"

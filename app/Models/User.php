@@ -104,4 +104,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Proposal::class);
     }
+
+    /**
+     * Get accessible avatar URL (signed temporary URL or proxy fallback)
+     */
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return \App\Services\StorageHelper::url($this->avatar);
+    }
 }

@@ -559,5 +559,43 @@ class DashboardController extends Controller
     {
         return view('pages.dashboard.settings');
     }
+
+    // ─── Storage Streaming Proxy (Fallback) ─────────
+    public function storageProxy(Request $request, string $path)
+    {
+        $cleanPath = ltrim(urldecode($path), '/');
+
+        if (!Storage::exists($cleanPath)) {
+            // Also check public disk fallback
+            if (Storage::disk('public')->exists($cleanPath)) {
+                $mimeType = Storage::disk('public')->mimeType($cleanPath) ?: 'application/octet-stream';
+                $fileStream = Storage::disk('public')->readStream($cleanPath);
+                return response()->stream(function () use ($fileStream) {
+                    fpassthru($fileStream);
+                    if (is_resource($fileStream)) {
+                        fclose($fileStream);
+                    }
+                }, 200, [
+                    'Content-Type' => $mimeType,
+                    'Cache-Control' => 'public, max-age=86400',
+                ]);
+            }
+
+            abort(404, 'File tidak ditemukan di penyimpanan.');
+        }
+
+        $mimeType = Storage::mimeType($cleanPath) ?: 'application/octet-stream';
+        $fileStream = Storage::readStream($cleanPath);
+
+        return response()->stream(function () use ($fileStream) {
+            fpassthru($fileStream);
+            if (is_resource($fileStream)) {
+                fclose($fileStream);
+            }
+        }, 200, [
+            'Content-Type' => $mimeType,
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
+    }
 }
 
