@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProgramKerja;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProkerController extends Controller
 {
     public function index(Request $request)
     {
-        $accounts = collect($this->dummyAccounts())->keyBy('id');
+        $accounts = collect($this->getAccounts())->keyBy('id');
         $statusLabels = $this->prokerStatusOptions();
         $statusOptions = $statusLabels;
 
@@ -137,7 +138,7 @@ class ProkerController extends Controller
 
     public function create()
     {
-        $accounts = collect($this->dummyAccounts());
+        $accounts = collect($this->getAccounts());
 
         $divisionOptions = collect($this->defaultDivisionOptions());
 
@@ -146,7 +147,7 @@ class ProkerController extends Controller
 
     public function store(Request $request)
     {
-        $allowedAccountIds = collect($this->dummyAccounts())->pluck('id')->all();
+        $allowedAccountIds = collect($this->getAccounts())->pluck('id')->all();
         $today = now()->format('Y-m-d');
 
         $validated = $request->validate([
@@ -202,7 +203,7 @@ class ProkerController extends Controller
 
     public function edit(string $id)
     {
-        $accounts = collect($this->dummyAccounts());
+        $accounts = collect($this->getAccounts());
         $proker = ProgramKerja::query()->findOrFail((int) $id);
 
         $divisionOptions = collect($this->defaultDivisionOptions());
@@ -228,7 +229,7 @@ class ProkerController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $allowedAccountIds = collect($this->dummyAccounts())->pluck('id')->all();
+        $allowedAccountIds = collect($this->getAccounts())->pluck('id')->all();
         $proker = ProgramKerja::query()->findOrFail((int) $id);
         $today = now()->format('Y-m-d');
 
@@ -304,7 +305,7 @@ class ProkerController extends Controller
 
     public function show(string $id)
     {
-        $accounts = collect($this->dummyAccounts())->keyBy('id');
+        $accounts = collect($this->getAccounts())->keyBy('id');
         $prokerRow = ProgramKerja::query()->findOrFail((int) $id);
 
         $pj = $accounts->get($prokerRow->pj_user_id);
@@ -417,6 +418,22 @@ class ProkerController extends Controller
             ->filter()
             ->values()
             ->all();
+    }
+
+    private function getAccounts(): array
+    {
+        $users = User::query()->orderBy('name', 'asc')->get();
+        if ($users->isNotEmpty()) {
+            return $users->map(fn (User $u) => [
+                'id' => $u->id,
+                'name' => $u->name,
+                'email' => $u->email,
+                'role' => $u->jabatanLabel(),
+                'division' => $u->divisi ?: 'HMSE',
+            ])->all();
+        }
+
+        return $this->dummyAccounts();
     }
 
     private function dummyAccounts(): array

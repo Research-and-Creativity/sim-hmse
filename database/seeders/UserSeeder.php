@@ -10,7 +10,21 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
+        // Pastikan role dasar ada di tabel roles
+        DB::table('roles')->updateOrInsert(['id' => 1], ['name' => 'admin', 'updated_at' => now(), 'created_at' => now()]);
+        DB::table('roles')->updateOrInsert(['id' => 2], ['name' => 'pengurus', 'updated_at' => now(), 'created_at' => now()]);
+
         $users = [
+            // ── ADMIN UTAMA ──────────────────────────────────────────────────
+            [
+                'name'    => 'Admin HMSE',
+                'email'   => 'admin@hmse.ac.id',
+                'password'=> Hash::make('adminHMSE2026!'),
+                'role'    => 'admin',
+                'jabatan' => 'admin',
+                'nim_nip' => null,
+                'divisi'  => 'Administrasi',
+            ],
             // ── PENGURUS INTI ────────────────────────────────────────────────
             [
                 'name'    => 'Quratu Ayun Defaren',

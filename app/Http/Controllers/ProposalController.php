@@ -209,12 +209,23 @@ class ProposalController extends Controller
     public function approve(Request $request, ProposalApproval $approval)
     {
         $proposal = $approval->proposal;
-        // $this->authorize('view', $proposal);
+        $user = auth()->user();
 
-        // Check if user has authority to approve
-        // if (auth()->user()->id !== $approval->approver_id && auth()->user()->id !== null) {
-        //     // In production, check roles/permissions here
-        // }
+        if (!$user) {
+            abort(401, 'Silakan login terlebih dahulu.');
+        }
+
+        // Validasi jabatan yang sesuai dengan tahap approval
+        $userJabatan = $user->jabatan;
+        $normalizedJabatan = ($userJabatan === 'ketua_hmse') ? 'ketua_hima' : $userJabatan;
+
+        $hasAuthority = ($user->role === 'admin') 
+            || ($approval->approver_id && $approval->approver_id === $user->id)
+            || ($approval->approver_role === $userJabatan || $approval->approver_role === $normalizedJabatan);
+
+        if (!$hasAuthority) {
+            return back()->with('error', 'Anda tidak memiliki wewenang untuk menyetujui tahap ' . ucfirst(str_replace('_', ' ', $approval->approver_role)) . '.');
+        }
 
         $validated = $request->validate([
             'signature_data' => 'nullable|string',
@@ -282,7 +293,23 @@ class ProposalController extends Controller
     public function reject(Request $request, ProposalApproval $approval)
     {
         $proposal = $approval->proposal;
-        // $this->authorize('view', $proposal);
+        $user = auth()->user();
+
+        if (!$user) {
+            abort(401, 'Silakan login terlebih dahulu.');
+        }
+
+        // Validasi jabatan yang sesuai dengan tahap approval
+        $userJabatan = $user->jabatan;
+        $normalizedJabatan = ($userJabatan === 'ketua_hmse') ? 'ketua_hima' : $userJabatan;
+
+        $hasAuthority = ($user->role === 'admin') 
+            || ($approval->approver_id && $approval->approver_id === $user->id)
+            || ($approval->approver_role === $userJabatan || $approval->approver_role === $normalizedJabatan);
+
+        if (!$hasAuthority) {
+            return back()->with('error', 'Anda tidak memiliki wewenang untuk menolak tahap ' . ucfirst(str_replace('_', ' ', $approval->approver_role)) . '.');
+        }
 
         $validated = $request->validate([
             'rejection_reason' => 'required|string|max:1000',

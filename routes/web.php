@@ -41,12 +41,9 @@ Route::post('/logout', [DashboardController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 | Dashboard Routes — Halaman Manajemen Internal
 |--------------------------------------------------------------------------
-| Sementara tanpa auth middleware agar bisa diakses langsung.
-| Nanti tinggal wrap dengan: Route::middleware('auth')->group(...)
-|--------------------------------------------------------------------------
 */
 
-Route::prefix('dashboard')->name('dashboard')->group(function () {
+Route::prefix('dashboard')->name('dashboard')->middleware(['auth', 'role:admin,pengurus'])->group(function () {
 
     // Dashboard Overview
     Route::get('/', [DashboardController::class, 'index']);
@@ -94,6 +91,8 @@ Route::prefix('dashboard')->name('dashboard')->group(function () {
     Route::prefix('/sotk')->name('.sotk')->group(function () {
         Route::get('/', [DashboardController::class, 'sotkIndex'])->name('.index');
         Route::get('/create', [DashboardController::class, 'sotkCreate'])->name('.create');
+        Route::post('/', [DashboardController::class, 'sotkStore'])->name('.store');
+        Route::delete('/{id}', [DashboardController::class, 'sotkDestroy'])->name('.destroy');
     });
 
     // Events / Proker Publik Management
@@ -108,6 +107,9 @@ Route::prefix('dashboard')->name('dashboard')->group(function () {
     // Dokumentasi
     Route::prefix('/documents')->name('.documents')->group(function () {
         Route::get('/', [DashboardController::class, 'documentsIndex'])->name('.index');
+        Route::post('/', [DashboardController::class, 'documentsStore'])->name('.store');
+        Route::get('/{id}/download', [DashboardController::class, 'documentsDownload'])->name('.download');
+        Route::delete('/{id}', [DashboardController::class, 'documentsDestroy'])->name('.destroy');
     });
 
     // Pengaturan
@@ -120,7 +122,7 @@ Route::prefix('dashboard')->name('dashboard')->group(function () {
 | Pembina / Kaprodi Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('pembina')->name('pembina.')->group(function () {
+Route::prefix('pembina')->name('pembina.')->middleware(['auth', 'role:pembina,kaprodi'])->group(function () {
 
     Route::get('/',                   [PembinaController::class, 'dashboard'])->name('dashboard');
     Route::get('/proker',             [PembinaController::class, 'proker'])->name('proker');
@@ -146,8 +148,8 @@ Route::prefix('pembina')->name('pembina.')->group(function () {
 // Public template download (no auth required)
 Route::get('/proposals/template/{riskLevel}', [ProposalController::class, 'downloadTemplate'])->name('proposals.download-template');
 
-// Protected proposal routes (auth temporarily disabled)
-Route::prefix('proposals')->name('proposals')->group(function () {
+// Protected proposal routes
+Route::prefix('proposals')->name('proposals')->middleware(['auth', 'role:admin,pengurus,pembina,kaprodi'])->group(function () {
     Route::get('/', [ProposalController::class, 'index'])->name('.index');
     Route::get('/create', [ProposalController::class, 'create'])->name('.create');
     Route::post('/', [ProposalController::class, 'store'])->name('.store');
@@ -164,10 +166,12 @@ Route::prefix('proposals')->name('proposals')->group(function () {
     Route::delete('/{proposal}', [ProposalController::class, 'destroy'])->name('.destroy');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::post('/proposal/preview', [ProposalController::class, 'preview'])
+        ->name('dashboard.proposal.preview.post');
 
-Route::post('/proposal/preview', [ProposalController::class, 'preview'])
-    ->name('dashboard.proposal.preview.post');
+    Route::post('/proposal/download-docx', [ProposalController::class, 'downloadPreviewDocx'])
+        ->name('dashboard.proposal.download-docx');
+});
 
-Route::post('/proposal/download-docx', [ProposalController::class, 'downloadPreviewDocx'])
-    ->name('dashboard.proposal.download-docx');
 

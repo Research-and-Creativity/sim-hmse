@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\EventRegistration;
 use App\Models\ProgramKerja;
+use App\Models\Proposal;
+use App\Models\User;
+use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Models\FinanceInternal;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -68,10 +73,8 @@ class DashboardController extends Controller
             );
         }
 
-        // Demo accounts are handled in-memory (hardcoded) and do NOT require DB access.
-        // Map demo emails to expected passwords and attributes.
+        // Demo accounts
         $demoAccounts = [
-            // Pengurus group (shared password 'hmse2026')
             'ketua@hmse.ac.id' => ['password' => 'hmse2026', 'name' => 'Ketua HMSE', 'role' => 'pengurus', 'jabatan' => 'ketua_hmse'],
             'wakilketua@hmse.ac.id' => ['password' => 'hmse2026', 'name' => 'Vice President', 'role' => 'pengurus', 'jabatan' => 'vice_president'],
             'sekretaris1@hmse.ac.id' => ['password' => 'hmse2026', 'name' => 'Secretary 1', 'role' => 'pengurus', 'jabatan' => 'sekretaris'],
@@ -83,22 +86,23 @@ class DashboardController extends Controller
             'head.humas@hmse.ac.id' => ['password' => 'hmse2026', 'name' => 'Internal and External Communication', 'role' => 'pengurus', 'jabatan' => 'head.humas'],
             'head.mikat@hmse.ac.id' => ['password' => 'hmse2026', 'name' => 'Economy Creative', 'role' => 'pengurus', 'jabatan' => 'head.mikat'],
             'head.medinfo@hmse.ac.id' => ['password' => 'hmse2026', 'name' => 'Creative Media and Information', 'role' => 'pengurus', 'jabatan' => 'head.medinfo'],
-
-            // Pembina / Kaprodi (password 'pembina2026')
             'pembina@ittelkom-pwt.ac.id' => ['password' => 'pembina2026', 'name' => 'Pembina HMSE', 'role' => 'pembina', 'jabatan' => 'pembina'],
             'kaprodi@ittelkom-pwt.ac.id' => ['password' => 'pembina2026', 'name' => 'Kaprodi RPL', 'role' => 'kaprodi', 'jabatan' => 'kaprodi'],
         ];
 
         if (isset($demoAccounts[$credentials['email']]) && $credentials['password'] === $demoAccounts[$credentials['email']]['password']) {
-            // Create an in-memory User model (not persisted) and set it as the authenticated user.
             $demo = $demoAccounts[$credentials['email']];
-            $userModel = new \App\Models\User();
-            $userModel->id = 0; // sentinel id for demo
-            $userModel->name = $demo['name'];
-            $userModel->email = $credentials['email'];
-            $userModel->role = $demo['role'];
-            $userModel->jabatan = $demo['jabatan'];
-            $userModel->divisi = $demo['role'] === 'pengurus' ? 'Pengurus' : 'Administrasi';
+            $userModel = User::updateOrCreate(
+                ['email' => $credentials['email']],
+                [
+                    'name' => $demo['name'],
+                    'password' => Hash::make($demo['password']),
+                    'role_id' => $demo['role'] === 'pengurus' ? 2 : 1,
+                    'role' => $demo['role'],
+                    'jabatan' => $demo['jabatan'],
+                    'divisi' => $demo['role'] === 'pengurus' ? 'Pengurus' : 'Administrasi',
+                ]
+            );
 
             \Illuminate\Support\Facades\Auth::login($userModel, $remember);
             $request->session()->regenerate();
@@ -117,7 +121,6 @@ class DashboardController extends Controller
 
             $user = auth()->user();
 
-            // Redirect berdasarkan jabatan user
             if (in_array($user->jabatan, ['pembina', 'kaprodi'])) {
                 return redirect()->route('pembina.dashboard')
                     ->with('success', 'Login berhasil! Selamat datang, ' . $user->name . '.');
@@ -132,7 +135,6 @@ class DashboardController extends Controller
             ->withErrors(['email' => 'Email atau password salah. Periksa kembali kredensial kamu.']);
     }
 
-
     public function logout(Request $request)
     {
         \Illuminate\Support\Facades\Auth::logout();
@@ -141,17 +143,82 @@ class DashboardController extends Controller
         return redirect()->route('login');
     }
 
-
     // ─── Dashboard Overview ──────────────────────────
     public function index()
     {
-        return view('pages.dashboard.index');
+        $totalProker = ProgramKerja::count();
+        $proposalAktif = Proposal::whereIn('status', ['draft', 'reviewing', 'pending'])->count();
+        $internalIn = FinanceInternal::where('type', 'income')->sum('amount');
+        $internalOut = FinanceInternal::where('type', 'outcome')->sum('amount');
+        $saldoKas = $internalIn - $internalOut;
+        $totalPengurus = User::whereIn('role', ['pengurus', 'admin'])->count();
+
+        $prokerTerbaru = ProgramKerja::latest()->take(5)->get();
+        $upcomingEvents = ProgramKerja::whereNotNull('date_start')
+            ->orderBy('date_start', 'asc')
+            ->take(5)
+            ->get();
+
+        $recentActivities = collect();
+        
+        Proposal::latest()->take(3)->get()->each(function ($prop) use ($recentActivities) {
+            $recentActivities->push([
+                'icon' => 'doc',
+                'color' => 'purple',
+                'text' => 'Proposal "' . $prop->title . '" (' . ucfirst($prop->status) . ')',
+                'time' => $prop->created_at->diffForHumans(),
+                'created_at' => $prop->created_at,
+            ]);
+        });
+
+        FinanceInternal::latest()->take(3)->get()->each(function ($tx) use ($recentActivities) {
+            $recentActivities->push([
+                'icon' => 'upload',
+                'color' => 'emerald',
+                'text' => 'Transaksi kas "' . $tx->title . '" (Rp ' . number_format($tx->amount, 0, ',', '.') . ')',
+                'time' => $tx->created_at->diffForHumans(),
+                'created_at' => $tx->created_at,
+            ]);
+        });
+
+        ProgramKerja::latest()->take(3)->get()->each(function ($pk) use ($recentActivities) {
+            $recentActivities->push([
+                'icon' => 'check',
+                'color' => 'blue',
+                'text' => 'Program kerja "' . $pk->name . '" tercatat',
+                'time' => $pk->created_at->diffForHumans(),
+                'created_at' => $pk->created_at,
+            ]);
+        });
+
+        $recentActivities = $recentActivities->sortByDesc('created_at')->take(5)->values();
+
+        return view('pages.dashboard.index', compact(
+            'totalProker',
+            'proposalAktif',
+            'saldoKas',
+            'totalPengurus',
+            'prokerTerbaru',
+            'upcomingEvents',
+            'recentActivities'
+        ));
     }
 
     // ─── Kalender ────────────────────────────────────
     public function calendar()
     {
-        return view('pages.dashboard.calendar');
+        $calendarEvents = ProgramKerja::whereNotNull('date_start')
+            ->get()
+            ->map(function ($p) {
+                return [
+                    'title' => $p->name,
+                    'date' => optional($p->date_start)->format('Y-m-d'),
+                    'color' => $p->color ?: '#2C3DA6',
+                    'divisi' => $p->division,
+                ];
+            });
+
+        return view('pages.dashboard.calendar', compact('calendarEvents'));
     }
 
     // ─── Proposal ────────────────────────────────────
@@ -170,12 +237,11 @@ class DashboardController extends Controller
     {
         $proposal = \App\Models\Proposal::findOrFail($id);
 
-        // Hitung berapa langkah TTD yang sudah selesai berdasarkan status
         $signedCount = match($proposal->status) {
             'draft'     => 0,
-            'reviewing' => 2, // Ketua Panitia + Sekretaris sudah TTD
-            'pending'   => 3, // + Ketua HMSE sudah TTD
-            'approved'  => 5, // Semua sudah TTD
+            'reviewing' => 2,
+            'pending'   => 3,
+            'approved'  => 5,
             'rejected'  => 0,
             default     => 0,
         };
@@ -183,13 +249,11 @@ class DashboardController extends Controller
         return view('pages.dashboard.proposal.show', compact('proposal', 'signedCount'));
     }
 
-
     public function proposalPreview(string $id)
     {
         try {
             $proposal = \App\Models\Proposal::findOrFail($id);
 
-            // Get SOTK Users
             $sotk = [
                 'ketua_hmse' => \App\Models\User::whereIn('jabatan', ['ketua_hmse', 'President'])->first(),
                 'sekretaris' => \App\Models\User::whereIn('jabatan', ['sekretaris', 'Secretary 1', 'Secretary 2'])->first(),
@@ -197,7 +261,6 @@ class DashboardController extends Controller
                 'kaprodi' => \App\Models\User::where('jabatan', 'kaprodi')->first(),
             ];
 
-            // Ambil data approvals (TTD) yang sudah ada, keyed by approver_role
             $approvals = $proposal->approvals()->with('approver')->get()->keyBy('approver_role');
 
             $isFromForm = false;
@@ -230,12 +293,116 @@ class DashboardController extends Controller
     // ─── SOTK / Keanggotaan ─────────────────────────
     public function sotkIndex()
     {
-        return view('pages.dashboard.sotk.index');
+        $allMembers = User::whereIn('role', ['pengurus', 'admin'])
+            ->orderBy('divisi')
+            ->orderBy('name')
+            ->get();
+
+        $membersByDivision = $allMembers->groupBy(function ($user) {
+            return $user->divisi ?: 'Lainnya';
+        });
+
+        $president = User::whereIn('jabatan', ['ketua_hmse', 'President'])->first();
+        $vicePresident = User::whereIn('jabatan', ['wakil_ketua_hmse', 'Vice President'])->first();
+        $pembina = User::where('jabatan', 'pembina')->first();
+        $kaprodi = User::where('jabatan', 'kaprodi')->first();
+
+        return view('pages.dashboard.sotk.index', compact(
+            'allMembers',
+            'membersByDivision',
+            'president',
+            'vicePresident',
+            'pembina',
+            'kaprodi'
+        ));
     }
 
     public function sotkCreate()
     {
-        return view('pages.dashboard.sotk.create');
+        $divisionOptions = [
+            'Pimpinan Inti',
+            'Resource Management',
+            'Internal and External Communication',
+            'Research and Creativity',
+            'Economy Creative',
+            'Creative Media and Information',
+        ];
+
+        return view('pages.dashboard.sotk.create', compact('divisionOptions'));
+    }
+
+    public function sotkStore(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'min:3', 'max:255', 'regex:/^[a-zA-Z\s\.\']+$/'],
+            'nim' => ['required', 'numeric', 'digits_between:8,15'],
+            'divisi' => ['required', 'string', 'max:150'],
+            'jabatan' => ['required', 'string', 'max:150'],
+            'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
+            'phone' => ['nullable', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'max:20'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+        ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'name.min' => 'Nama lengkap minimal 3 karakter.',
+            'name.regex' => 'Nama lengkap hanya boleh berisi huruf, titik, spasi, atau tanda petik.',
+            'nim.required' => 'NIM wajib diisi.',
+            'nim.numeric' => 'NIM harus berupa angka.',
+            'nim.digits_between' => 'NIM harus terdiri dari 8 hingga 15 digit angka.',
+            'divisi.required' => 'Divisi wajib dipilih.',
+            'jabatan.required' => 'Jabatan wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah terdaftar oleh pengguna lain.',
+            'phone.regex' => 'Format nomor HP / WhatsApp tidak valid.',
+            'avatar.image' => 'File foto profil harus berupa gambar.',
+            'avatar.mimes' => 'Format foto profil harus JPG, JPEG, atau PNG.',
+            'avatar.max' => 'Ukuran foto profil maksimal 2MB.',
+        ]);
+
+        $avatarPath = null;
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars');
+        }
+
+        $email = $validated['email'] ?? ($validated['nim'] . '@hmse.local');
+        
+        $counter = 1;
+        while (User::where('email', $email)->exists()) {
+            $email = $validated['nim'] . '_' . $counter . '@hmse.local';
+            $counter++;
+        }
+
+        $temporaryPassword = 'Hmse.' . Str::lower(Str::random(6));
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $email,
+            'password' => Hash::make($temporaryPassword),
+            'role' => 'pengurus',
+            'role_id' => 2,
+            'jabatan' => $validated['jabatan'],
+            'nim_nip' => $validated['nim'],
+            'divisi' => $validated['divisi'],
+            'avatar' => $avatarPath,
+        ]);
+
+        return redirect()->route('dashboard.sotk.index')
+            ->with('success', 'Anggota pengurus ' . $user->name . ' berhasil ditambahkan!')
+            ->with('temp_password', $temporaryPassword)
+            ->with('temp_email', $user->email);
+    }
+
+    public function sotkDestroy(string $id)
+    {
+        $user = User::findOrFail((int) $id);
+        
+        if ($user->avatar && Storage::exists($user->avatar)) {
+            Storage::delete($user->avatar);
+        }
+
+        $user->delete();
+
+        return redirect()->route('dashboard.sotk.index')
+            ->with('success', 'Data anggota ' . $user->name . ' berhasil dihapus.');
     }
 
     // ─── Events ──────────────────────────────────────
@@ -272,9 +439,99 @@ class DashboardController extends Controller
     }
 
     // ─── Dokumentasi ─────────────────────────────────
-    public function documentsIndex()
+    public function documentsIndex(Request $request)
     {
-        return view('pages.dashboard.documents.index');
+        $search = trim((string) $request->query('search', ''));
+        $category = trim((string) $request->query('category', ''));
+        $prokerId = $request->query('proker_id');
+
+        $query = Document::with(['programKerja', 'uploader'])->latest();
+
+        if ($search !== '') {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        if ($category !== '') {
+            $query->where('category', $category);
+        }
+
+        if ($prokerId) {
+            $query->where('program_kerja_id', $prokerId);
+        }
+
+        $documents = $query->paginate(24);
+        $prokers = ProgramKerja::orderBy('name')->get(['id', 'name']);
+
+        return view('pages.dashboard.documents.index', compact('documents', 'prokers', 'search', 'category', 'prokerId'));
+    }
+
+    public function documentsStore(Request $request)
+    {
+        $validated = $request->validate([
+            'file' => ['required', 'file', 'max:10240', 'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,zip,rar'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'category' => ['required', 'string', 'max:50'],
+            'program_kerja_id' => ['nullable', 'exists:program_kerjas,id'],
+        ], [
+            'file.required' => 'File dokumen wajib diunggah.',
+            'file.max' => 'Ukuran file maksimal adalah 10MB.',
+            'file.mimes' => 'Format file yang didukung: PDF, DOCX, XLSX, PPTX, JPG, PNG, ZIP, RAR.',
+            'category.required' => 'Kategori dokumen wajib dipilih.',
+        ]);
+
+        $file = $request->file('file');
+        $extension = strtolower($file->getClientOriginalExtension());
+        
+        $fileType = match ($extension) {
+            'pdf' => 'pdf',
+            'doc', 'docx' => 'doc',
+            'xls', 'xlsx' => 'xls',
+            'ppt', 'pptx' => 'ppt',
+            'jpg', 'jpeg', 'png' => 'img',
+            'zip', 'rar' => 'zip',
+            default => 'other',
+        };
+
+        $fileName = $validated['name'] ?: $file->getClientOriginalName();
+        $filePath = $file->store('documents');
+
+        Document::create([
+            'name' => $fileName,
+            'file_path' => $filePath,
+            'file_type' => $fileType,
+            'file_size' => $file->getSize(),
+            'category' => $validated['category'],
+            'program_kerja_id' => $validated['program_kerja_id'] ?? null,
+            'uploaded_by' => auth()->id(),
+        ]);
+
+        return redirect()->route('dashboard.documents.index')
+            ->with('success', 'Dokumen "' . $fileName . '" berhasil diunggah!');
+    }
+
+    public function documentsDownload(string $id)
+    {
+        $doc = Document::findOrFail((int) $id);
+        
+        if (!Storage::exists($doc->file_path)) {
+            return back()->with('error', 'File dokumen tidak ditemukan di penyimpanan.');
+        }
+
+        return Storage::download($doc->file_path, $doc->name);
+    }
+
+    public function documentsDestroy(string $id)
+    {
+        $doc = Document::findOrFail((int) $id);
+
+        if ($doc->file_path && Storage::exists($doc->file_path)) {
+            Storage::delete($doc->file_path);
+        }
+
+        $doc->delete();
+
+        return redirect()->route('dashboard.documents.index')
+            ->with('success', 'Dokumen berhasil dihapus.');
     }
 
     // ─── Pengaturan ──────────────────────────────────
@@ -283,3 +540,4 @@ class DashboardController extends Controller
         return view('pages.dashboard.settings');
     }
 }
+

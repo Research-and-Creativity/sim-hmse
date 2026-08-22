@@ -23,9 +23,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
                 </div>
-                <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+3 bulan ini</span>
+                <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Program</span>
             </div>
-            <p class="text-2xl font-black text-gray-800">12</p>
+            <p class="text-2xl font-black text-gray-800">{{ $totalProker ?? 0 }}</p>
             <p class="text-xs text-gray-400 mt-0.5">Total Program Kerja</p>
         </div>
 
@@ -37,9 +37,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                 </div>
-                <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">4 menunggu</span>
+                <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full">Aktif</span>
             </div>
-            <p class="text-2xl font-black text-gray-800">8</p>
+            <p class="text-2xl font-black text-gray-800">{{ $proposalAktif ?? 0 }}</p>
             <p class="text-xs text-gray-400 mt-0.5">Proposal Aktif</p>
         </div>
 
@@ -51,9 +51,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">↑ 12%</span>
+                <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Kas</span>
             </div>
-            <p class="text-2xl font-black text-gray-800">Rp 4.250.000</p>
+            <p class="text-2xl font-black text-gray-800">Rp {{ number_format($saldoKas ?? 0, 0, ',', '.') }}</p>
             <p class="text-xs text-gray-400 mt-0.5">Saldo Kas Internal</p>
         </div>
 
@@ -65,10 +65,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
                 </div>
-                <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">5 divisi</span>
+                <span class="text-xs font-semibold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full">Pengurus</span>
             </div>
-            <p class="text-2xl font-black text-gray-800">32</p>
-            <p class="text-xs text-gray-400 mt-0.5">Total Pengurus Aktif</p>
+            <p class="text-2xl font-black text-gray-800">{{ $totalPengurus ?? 0 }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">Total Pengurus Terdaftar</p>
         </div>
 
     </div>
@@ -77,45 +77,50 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
         {{-- Proker Terbaru --}}
-        <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm">
+        <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                 <h3 class="text-sm font-bold text-gray-800">Program Kerja Terbaru</h3>
                 <a href="{{ route('dashboard.proker.index') }}" class="text-xs font-semibold text-[#2C3DA6] hover:text-[#00C4D8] transition-colors">Lihat Semua →</a>
             </div>
             <div class="divide-y divide-gray-50">
-                @foreach([
-                    ['name' => 'Workshop UI/UX Design', 'divisi' => 'Divisi Akademik', 'status' => 'on-progress', 'date' => '15 Apr 2026'],
-                    ['name' => 'Seminar Nasional Tech Week', 'divisi' => 'Divisi Eksternal', 'status' => 'preparation', 'date' => '22 Apr 2026'],
-                    ['name' => 'Bootcamp Web Development', 'divisi' => 'Divisi Akademik', 'status' => 'completed', 'date' => '01 Mar 2026'],
-                    ['name' => 'Turnamen E-Sport HMSE Cup', 'divisi' => 'Divisi Olahraga & Seni', 'status' => 'draft', 'date' => '10 Mei 2026'],
-                    ['name' => 'Bazaar Kewirausahaan', 'divisi' => 'Divisi Kewirausahaan', 'status' => 'preparation', 'date' => '05 Mei 2026'],
-                ] as $proker)
+                @forelse ($prokerTerbaru as $proker)
                     <div class="flex items-center justify-between px-6 py-3.5 hover:bg-gray-50/50 transition-colors duration-200">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-2 h-2 rounded-full flex-shrink-0
-                                {{ $proker['status'] === 'on-progress' ? 'bg-blue-500 animate-pulse' :
-                                   ($proker['status'] === 'completed' ? 'bg-emerald-500' :
-                                   ($proker['status'] === 'preparation' ? 'bg-amber-500' : 'bg-gray-300')) }}">
+                                {{ $proker->status === 'on-progress' ? 'bg-blue-500 animate-pulse' :
+                                   ($proker->status === 'completed' ? 'bg-emerald-500' :
+                                   ($proker->status === 'preparation' ? 'bg-amber-500' : 'bg-gray-300')) }}">
                             </div>
                             <div class="min-w-0">
-                                <p class="text-sm font-semibold text-gray-700 truncate">{{ $proker['name'] }}</p>
-                                <p class="text-xs text-gray-400">{{ $proker['divisi'] }} · {{ $proker['date'] }}</p>
+                                <a href="{{ route('dashboard.proker.show', $proker->id) }}" class="text-sm font-semibold text-gray-700 hover:text-[#2C3DA6] truncate block">
+                                    {{ $proker->name }}
+                                </a>
+                                <p class="text-xs text-gray-400">{{ $proker->division }} · {{ optional($proker->date_start)->format('d M Y') ?? '-' }}</p>
                             </div>
                         </div>
-                        <x-dashboard.status-badge :status="$proker['status']" />
+                        <x-dashboard.status-badge :status="$proker->status" />
                     </div>
-                @endforeach
+                @empty
+                    <div class="p-8 text-center text-gray-400">
+                        <svg class="w-10 h-10 mx-auto mb-2 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                        <p class="text-xs text-gray-500 font-medium">Belum ada program kerja</p>
+                    </div>
+                @endforelse
             </div>
         </div>
 
         {{-- Calendar Widget + Upcoming --}}
         <div class="space-y-6">
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-                <x-dashboard.calendar-widget :events="[
-                    ['date' => now()->format('Y-m-') . '15', 'title' => 'Workshop UI/UX'],
-                    ['date' => now()->format('Y-m-') . '22', 'title' => 'Seminar Tech'],
-                    ['date' => now()->format('Y-m-') . '05', 'title' => 'Bazaar'],
-                ]" />
+                @php
+                    $eventsForWidget = $upcomingEvents->map(function ($ev) {
+                        return [
+                            'date' => optional($ev->date_start)->format('Y-m-d') ?: now()->format('Y-m-d'),
+                            'title' => $ev->name,
+                        ];
+                    })->all();
+                @endphp
+                <x-dashboard.calendar-widget :events="$eventsForWidget" />
             </div>
 
             {{-- Quick Actions --}}
@@ -157,19 +162,13 @@
     </div>
 
     {{-- Recent Activity --}}
-    <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100">
             <h3 class="text-sm font-bold text-gray-800">Aktivitas Terbaru</h3>
         </div>
         <div class="p-6">
             <div class="space-y-4">
-                @foreach([
-                    ['icon' => 'check', 'color' => 'emerald', 'text' => 'Proposal "Workshop UI/UX" disetujui oleh Ketua Hima', 'time' => '2 jam lalu'],
-                    ['icon' => 'upload', 'color' => 'blue', 'text' => 'Bukti transaksi kas internal diunggah oleh Bendahara', 'time' => '4 jam lalu'],
-                    ['icon' => 'user', 'color' => 'purple', 'text' => '3 anggota baru ditambahkan ke Divisi Akademik', 'time' => '1 hari lalu'],
-                    ['icon' => 'doc', 'color' => 'amber', 'text' => 'Laporan keuangan Maret 2026 diekspor ke Excel', 'time' => '2 hari lalu'],
-                    ['icon' => 'calendar', 'color' => 'cyan', 'text' => 'Jadwal Seminar Tech Week diperbarui', 'time' => '3 hari lalu'],
-                ] as $activity)
+                @forelse ($recentActivities as $activity)
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 rounded-lg bg-{{ $activity['color'] }}-50 flex items-center justify-center flex-shrink-0 mt-0.5">
                             @if($activity['icon'] === 'check')
@@ -189,9 +188,14 @@
                             <p class="text-xs text-gray-400 mt-0.5">{{ $activity['time'] }}</p>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="text-center py-6 text-gray-400">
+                        <p class="text-xs">Belum ada aktivitas tercatat</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
 
 </x-layouts.dashboard>
+

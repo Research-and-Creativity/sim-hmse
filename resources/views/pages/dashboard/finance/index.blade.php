@@ -113,13 +113,13 @@
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                     <h3 class="text-sm font-bold text-gray-800">Catatan Kas Internal</h3>
-                    <button class="text-xs font-semibold text-[#2C3DA6] hover:text-[#00C4D8] flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('dashboard.finance.create') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-[#2C3DA6] rounded-lg hover:bg-[#2C3DA6]/90 transition-colors shadow-sm">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                         Tambah Transaksi
-                    </button>
+                    </a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
@@ -130,7 +130,7 @@
                                 <th class="px-4 py-3 text-right">Pemasukan</th>
                                 <th class="px-4 py-3 text-right">Pengeluaran</th>
                                 <th class="px-4 py-3 text-right">Saldo</th>
-                                <th class="px-4 py-3 text-right">Metode</th>
+                                <th class="px-4 py-3 text-center">Metode</th>
                                 <th class="px-4 py-3 text-center">Deskripsi Tambahan</th>
                                 <th class="px-4 py-3 text-center">Bukti</th>
                                 <th class="px-4 py-3 text-center">Aksi</th>
@@ -138,37 +138,91 @@
                         </thead>
                         <tbody class="divide-y divide-gray-50">
                             @php $saldo = 0; @endphp
-                            @foreach ([['date' => '01 Mar', 'desc' => 'Iuran anggota Maret', 'debit' => 1600000, 'credit' => 0, 'method' => 'Transfer'], ['date' => '05 Mar', 'desc' => 'Cetak sertifikat Bootcamp', 'debit' => 0, 'credit' => 150000, 'method' => 'Cash'], ['date' => '10 Mar', 'desc' => 'Sponsor Tech Week', 'debit' => 3000000, 'credit' => 0, 'method' => 'Transfer'], ['date' => '15 Mar', 'desc' => 'Sewa sound system', 'debit' => 0, 'credit' => 750000, 'method' => 'Transfer'], ['date' => '20 Mar', 'desc' => 'Penjualan merchandise', 'debit' => 850000, 'credit' => 0, 'method' => 'Cash'], ['date' => '25 Mar', 'desc' => 'Konsumsi rapat koordinasi', 'debit' => 0, 'credit' => 300000, 'method' => 'E-Wallet']] as $tx)
-                                @php $saldo += $tx['debit'] - $tx['credit']; @endphp
+                            @forelse ($transaksiInternal as $tx)
+                                @php
+                                    if ($tx->type === 'income') {
+                                        $saldo += $tx->amount;
+                                    } else {
+                                        $saldo -= $tx->amount;
+                                    }
+                                @endphp
                                 <tr class="hover:bg-gray-50/50 transition-colors">
-                                    <td class="px-6 py-3 text-gray-500">{{ $tx['date'] }}</td>
-                                    <td class="px-4 py-3 font-medium text-gray-700">{{ $tx['desc'] }}</td>
-                                    <td
-                                        class="px-4 py-3 text-right {{ $tx['debit'] > 0 ? 'text-emerald-600 font-semibold' : 'text-gray-300' }}">
-                                        {{ $tx['debit'] > 0 ? '+ Rp ' . number_format($tx['debit'], 0, ',', '.') : '-' }}
+                                    <td class="px-6 py-3 text-gray-500 whitespace-nowrap">
+                                        {{ \Carbon\Carbon::parse($tx->transaction_date)->format('d M Y') }}
                                     </td>
-                                    <td
-                                        class="px-4 py-3 text-right {{ $tx['credit'] > 0 ? 'text-red-500 font-semibold' : 'text-gray-300' }}">
-                                        {{ $tx['credit'] > 0 ? '- Rp ' . number_format($tx['credit'], 0, ',', '.') : '-' }}
+                                    <td class="px-4 py-3 font-medium text-gray-700">{{ $tx->title }}</td>
+                                    <td class="px-4 py-3 text-right {{ $tx->type === 'income' ? 'text-emerald-600 font-semibold' : 'text-gray-300' }}">
+                                        {{ $tx->type === 'income' ? '+ Rp ' . number_format($tx->amount, 0, ',', '.') : '-' }}
                                     </td>
-                                    <td class="px-4 py-3 text-right font-bold text-gray-700">Rp
-                                        {{ number_format($saldo, 0, ',', '.') }}</td>
-                                    <td class="px-4 py-3 text-center"><span
-                                            class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{{ $tx['method'] }}</span>
+                                    <td class="px-4 py-3 text-right {{ $tx->type === 'outcome' ? 'text-red-500 font-semibold' : 'text-gray-300' }}">
+                                        {{ $tx->type === 'outcome' ? '- Rp ' . number_format($tx->amount, 0, ',', '.') : '-' }}
+                                    </td>
+                                    <td class="px-4 py-3 text-right font-bold text-gray-700 whitespace-nowrap">
+                                        Rp {{ number_format($saldo, 0, ',', '.') }}
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        <button
-                                            class="p-1.5 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-[#2C3DA6] transition-colors"
-                                            title="Upload bukti">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                        </button>
+                                        <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                                            {{ $tx->method ?: '-' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-center text-xs text-gray-500 max-w-xs truncate">
+                                        {{ $tx->description ?: '-' }}
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        @if ($tx->attachment)
+                                            <a href="{{ \Illuminate\Support\Facades\Storage::url($tx->attachment) }}" target="_blank"
+                                                class="inline-flex p-1.5 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-[#2C3DA6] transition-colors"
+                                                title="Lihat bukti transaksi">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                            </a>
+                                        @else
+                                            <span class="text-xs text-gray-300">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        <div class="flex items-center justify-center gap-1">
+                                            <a href="{{ route('dashboard.finance.edit', $tx->id) }}"
+                                                class="p-1.5 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-[#2C3DA6] transition-colors"
+                                                title="Edit Transaksi">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
+                                            </a>
+                                            <form method="POST" action="{{ route('dashboard.finance.destroy', $tx->id) }}"
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus transaksi ini?');"
+                                                class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"
+                                                    title="Hapus Transaksi">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="9" class="px-6 py-12 text-center text-gray-400">
+                                        <svg class="w-12 h-12 mx-auto mb-3 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <p class="font-semibold text-gray-600">Belum ada catatan kas internal</p>
+                                        <p class="text-xs text-gray-400 mt-1">Klik tombol "Tambah Transaksi" untuk memasukkan data kas pertama.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

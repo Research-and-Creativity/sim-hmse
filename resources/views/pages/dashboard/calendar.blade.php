@@ -5,14 +5,8 @@
         view: 'month',
         selectedDate: null,
 
-        events: [
-            { title: 'Workshop UI/UX Design', date: '2026-04-15', color: '#2C3DA6', divisi: 'Akademik' },
-            { title: 'Seminar Tech Week', date: '2026-04-22', color: '#00C4D8', divisi: 'Eksternal' },
-            { title: 'Rapat Koordinasi', date: '2026-04-10', color: '#f59e0b', divisi: 'Inti' },
-            { title: 'Bazaar Kewirausahaan', date: '2026-05-05', color: '#ec4899', divisi: 'Kewirausahaan' },
-            { title: 'Bootcamp Laravel', date: '2026-04-08', color: '#22c55e', divisi: 'Akademik' },
-            { title: 'Tournament E-Sport', date: '2026-05-10', color: '#8b5cf6', divisi: 'Olahraga' },
-        ],
+        events: {{ \Illuminate\Support\Js::from($calendarEvents ?? []) }},
+
 
         get monthName() {
             return this.currentDate.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
