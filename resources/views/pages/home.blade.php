@@ -111,13 +111,12 @@
             </div>
 
             @php
-                $latestEvents = \App\Models\ProgramKerja::where('is_public', true)
-                    ->orderBy('date_start','asc')->take(3)->get();
+                $eventsList = $latestEvents ?? \App\Models\ProgramKerja::where('is_public', true)->orderBy('date_start','asc')->take(3)->get();
             @endphp
 
-            @if($latestEvents->isNotEmpty())
+            @if($eventsList->isNotEmpty())
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                    @foreach($latestEvents as $ev)
+                    @foreach($eventsList as $ev)
                         @php
                             $regCount = $ev->eventRegistrations()->whereIn('status',['pending','confirmed'])->count();
                             $quota    = $ev->registration_quota ?? $ev->target_participants;
@@ -126,7 +125,7 @@
                             <a href="{{ route('events.show', $ev->id) }}">
                                 <div class="aspect-video bg-gray-100">
                                     @if($ev->poster)
-                                        <img src="{{ str_starts_with($ev->poster, 'http') ? $ev->poster : asset('storage/' . $ev->poster) }}" alt="{{ $ev->name }}" class="w-full h-full object-cover">
+                                        <img src="{{ str_starts_with($ev->poster, 'http') ? $ev->poster : \App\Services\StorageHelper::url($ev->poster) }}" alt="{{ $ev->name }}" class="w-full h-full object-cover" loading="lazy">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center"
                                              style="background: linear-gradient(135deg, {{ $ev->color ?? '#2C3DA6' }}18, {{ $ev->color ?? '#2C3DA6' }}35)">
@@ -152,17 +151,16 @@
                     @endforeach
                 </div>
             @else
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                    @for($i = 0; $i < 3; $i++)
-                        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-                            <div class="aspect-video animate-pulse" style="background: linear-gradient(135deg, #e8ecff, #dce2ff);"></div>
-                            <div class="p-5 space-y-2">
-                                <div class="h-3 bg-gray-100 rounded-full animate-pulse w-1/3"></div>
-                                <div class="h-4 bg-gray-200 rounded-full animate-pulse"></div>
-                                <div class="h-3 bg-gray-100 rounded-full animate-pulse w-2/5 mt-3"></div>
-                            </div>
-                        </div>
-                    @endfor
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 sm:p-12 text-center max-w-lg mx-auto mb-10">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-50 text-[#2C3DA6] flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2zM16 3v4M8 3v4M3 11h18"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-800 mb-1.5">Belum Ada Event Terbaru</h3>
+                    <p class="text-xs text-gray-500 max-w-sm mx-auto leading-relaxed">
+                        Saat ini belum ada event atau program kerja yang dibuka untuk publik. Pantau terus halaman ini atau media sosial HMSE untuk info kegiatan mendatang!
+                    </p>
                 </div>
             @endif
 
@@ -195,12 +193,12 @@
                 <p class="text-gray-500 text-sm">Dokumentasi kegiatan dan program kerja HMSE</p>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                @if(isset($gallery) && $gallery->count() > 0)
+            @if(isset($gallery) && $gallery->count() > 0)
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                     @foreach($gallery->take(8) as $item)
                         <div class="group relative aspect-square overflow-hidden rounded-xl cursor-pointer bg-gray-100">
                             <img src="{{ \App\Services\StorageHelper::url($item->image) }}" alt="Dokumentasi HMSE"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
                                  style="background: rgba(44,61,166,0.5);">
                                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,12 +207,12 @@
                             </div>
                         </div>
                     @endforeach
-                @else
-                    @for($i = 0; $i < 8; $i++)
-                        <div class="aspect-square rounded-xl animate-pulse" style="background: linear-gradient(135deg, #e8ecff, #dce2ff);"></div>
-                    @endfor
-                @endif
-            </div>
+                </div>
+            @else
+                <div class="bg-gray-50 rounded-2xl border border-gray-100 p-8 text-center max-w-md mx-auto">
+                    <p class="text-xs text-gray-400">Dokumentasi foto kegiatan akan segera diunggah.</p>
+                </div>
+            @endif
 
         </div>
     </section>

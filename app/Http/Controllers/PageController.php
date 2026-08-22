@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProgramKerja;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -10,8 +11,10 @@ class PageController extends Controller
 {
     public function home()
     {
-        // Nanti diganti dengan query dari database
-        $news    = collect();
+        $latestEvents = ProgramKerja::where('is_public', true)
+            ->orderBy('date_start', 'asc')
+            ->take(3)
+            ->get();
         $gallery = collect([
             (object)[
                 'image' => 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=60',
@@ -47,7 +50,7 @@ class PageController extends Controller
             ],
         ]);
 
-        return view('pages.home', compact('news', 'gallery'));
+        return view('pages.home', compact('latestEvents', 'gallery'));
     }
 
     public function about()
