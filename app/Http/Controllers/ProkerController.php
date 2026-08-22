@@ -335,7 +335,7 @@ class ProkerController extends Controller
             ->count();
         $totalSteps = $timelineSteps->count();
 
-        $proposal = \App\Models\Proposal::where('proker_id', $prokerRow->name)->first();
+        $proposal = \App\Models\Proposal::where('proker_id', $prokerRow->id)->first();
         $riskLevelLabel = $this->prokerRiskLevelLabel($prokerRow->risk_level ?? 'rendah');
 
         $proker = [
