@@ -453,9 +453,9 @@ class ProposalController extends Controller
                 'background' => $proposal->background,
                 'objective' => $proposal->objective,
                 'risk_level' => $riskLevel,
-                'budget' => number_format($proposal->budget, 0, ',', '.'),
+                'budget' => number_format((float) ($proposal->budget ?? 0), 0, ',', '.'),
                 'timeline' => $proposal->timeline,
-                'created_at' => $proposal->created_at->format('d/m/Y'),
+                'created_at' => $proposal->created_at ? $proposal->created_at->format('d/m/Y') : '-',
             ];
 
             return view('proposals.preview-filled', [

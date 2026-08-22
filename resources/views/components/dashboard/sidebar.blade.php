@@ -14,9 +14,9 @@
     ]"
 >
     {{-- Logo Area with Collapse Toggle --}}
-    <div class="flex items-center justify-between h-16 px-4 border-b border-gray-100 flex-shrink-0">
+    <div class="flex items-center justify-between h-16 px-4 border-b border-gray-100 shrink-0">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-3 overflow-hidden">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
                 <img src="{{ asset('images/logo-zenit.png') }}" alt="HMSE Logo" class="w-full h-full object-contain">
             </div>
             <div x-show="sidebarOpen" x-transition:enter="transition-opacity duration-200" class="overflow-hidden">
@@ -30,7 +30,7 @@
         {{-- Collapse Toggle (Hamburger) --}}
         <button
             @click="sidebarOpen = !sidebarOpen"
-            class="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-[#2C3DA6] hover:bg-blue-50 transition-all duration-200 flex-shrink-0"
+            class="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-[#2C3DA6] hover:bg-blue-50 transition-all duration-200 shrink-0"
             title="Toggle Sidebar"
         >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

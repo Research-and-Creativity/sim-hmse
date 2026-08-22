@@ -239,7 +239,7 @@
 
                     {{-- Onchange JavaScript memaksa halaman merefresh tab proker dengan id proker ter-update --}}
                     <select onchange="window.location.href = '?tab=proker&proker_id=' + this.value"
-                        class="px-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:border-[#2C3DA6] text-gray-600 font-medium min-w-[240px]">
+                        class="px-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:border-[#2C3DA6] text-gray-600 font-medium min-w-60">
                         @forelse($listProker as $proker)
                             <option value="{{ $proker->id }}"
                                 {{ $selectedProkerId == $proker->id ? 'selected' : '' }}>

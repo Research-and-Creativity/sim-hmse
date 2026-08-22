@@ -30,19 +30,19 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap *</label>
                     <input type="text" name="name" value="{{ old('name') }}" required
                            placeholder="Nama lengkap pengurus" 
-                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border @error('name') border-red-400 @else border-gray-200 @enderror rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
+                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border {{ $errors->has('name') ? 'border-red-400' : 'border-gray-200' }} rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
                     @error('name') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">NIM *</label>
                     <input type="text" name="nim" value="{{ old('nim') }}" required
                            placeholder="Contoh: 103122400064" 
-                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border @error('nim') border-red-400 @else border-gray-200 @enderror rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
+                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border {{ $errors->has('nim') ? 'border-red-400' : 'border-gray-200' }} rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
                     @error('nim') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Divisi *</label>
-                    <select name="divisi" required class="w-full px-4 py-2.5 text-sm bg-gray-50 border @error('divisi') border-red-400 @else border-gray-200 @enderror rounded-lg focus:outline-none focus:border-[#2C3DA6] text-gray-600">
+                    <select name="divisi" required class="w-full px-4 py-2.5 text-sm bg-gray-50 border {{ $errors->has('divisi') ? 'border-red-400' : 'border-gray-200' }} rounded-lg focus:outline-none focus:border-[#2C3DA6] text-gray-600">
                         <option value="">Pilih Divisi</option>
                         @foreach ($divisionOptions as $opt)
                             <option value="{{ $opt }}" @selected(old('divisi') === $opt)>{{ $opt }}</option>
@@ -54,21 +54,21 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Jabatan *</label>
                     <input type="text" name="jabatan" value="{{ old('jabatan') }}" required
                            placeholder="Contoh: President, Head of Division, Staff, Sekretaris" 
-                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border @error('jabatan') border-red-400 @else border-gray-200 @enderror rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
+                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border {{ $errors->has('jabatan') ? 'border-red-400' : 'border-gray-200' }} rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
                     @error('jabatan') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Email <span class="text-xs font-normal text-gray-400">(Opsional)</span></label>
                     <input type="email" name="email" value="{{ old('email') }}"
                            placeholder="email@domain.com" 
-                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border @error('email') border-red-400 @else border-gray-200 @enderror rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
+                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border {{ $errors->has('email') ? 'border-red-400' : 'border-gray-200' }} rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
                     @error('email') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">No. HP / WhatsApp <span class="text-xs font-normal text-gray-400">(Opsional)</span></label>
                     <input type="text" name="phone" value="{{ old('phone') }}"
                            placeholder="08xxxxxxxxxx" 
-                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border @error('phone') border-red-400 @else border-gray-200 @enderror rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
+                           class="w-full px-4 py-2.5 text-sm bg-gray-50 border {{ $errors->has('phone') ? 'border-red-400' : 'border-gray-200' }} rounded-lg focus:outline-none focus:border-[#2C3DA6] focus:ring-2 focus:ring-[#2C3DA6]/20">
                     @error('phone') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div class="sm:col-span-2" x-data="{ fileName: '', previewUrl: '' }">

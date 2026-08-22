@@ -104,8 +104,8 @@
                                     <template x-for="notif in notifications" :key="notif.id">
                                         <a :href="'/pembina/proposal/' + notif.proposal_id" 
                                            @click="markAsRead(notif.id)"
-                                           class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer block">
-                                            <div class="w-8 h-8 rounded-full {{ $chipBg }} flex items-center justify-center flex-shrink-0 {{ $chipText }}">
+                                           class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                            <div class="w-8 h-8 rounded-full {{ $chipBg }} flex items-center justify-center shrink-0 {{ $chipText }}">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                                                 </svg>
@@ -150,7 +150,7 @@
                         <div class="relative" x-data="{ userOpen: false }">
                             <button @click="userOpen = !userOpen"
                                     class="flex items-center gap-2.5 p-1.5 rounded-xl hover:bg-gray-50 transition-colors duration-200">
-                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br {{ $gradientFrom }} {{ $gradientTo }} flex items-center justify-center">
+                                <div class="w-8 h-8 rounded-lg bg-linear-to-br {{ $gradientFrom }} {{ $gradientTo }} flex items-center justify-center">
                                     <span class="text-white text-xs font-bold">
                                         {{ strtoupper(substr(auth()->user()?->name ?? 'PB', 0, 2)) }}
                                     </span>
@@ -205,7 +205,7 @@
                 @if (session('error'))
                     <div x-data="{ show: true }" x-show="show" x-transition class="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 flex items-center justify-between shadow-sm">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center shrink-0">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                                 </svg>
@@ -224,7 +224,7 @@
                 @if (session('success'))
                     <div x-data="{ show: true }" x-show="show" x-transition class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between shadow-sm">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
@@ -277,7 +277,7 @@
                  class="pointer-events-auto w-full bg-white/90 backdrop-blur-md border border-cyan-100 shadow-2xl rounded-2xl p-4 flex gap-3 items-start relative hover:shadow-cyan-100/50 transition-all duration-300">
                 
                 <!-- Bell icon with animation -->
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00C4D8] to-[#0891b2] flex items-center justify-center flex-shrink-0 text-white shadow-lg shadow-cyan-100/30">
+                <div class="w-10 h-10 rounded-xl bg-linear-to-br from-[#00C4D8] to-[#0891b2] flex items-center justify-center shrink-0 text-white shadow-lg shadow-cyan-100/30">
                     <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                     </svg>

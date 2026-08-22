@@ -50,7 +50,7 @@
                 <button @click="prevMonth()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 </button>
-                <h2 class="text-xl font-black text-gray-800 min-w-[200px] text-center" x-text="monthName"></h2>
+                <h2 class="text-xl font-black text-gray-800 min-w-50 text-center" x-text="monthName"></h2>
                 <button @click="nextMonth()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                 </button>
@@ -76,7 +76,7 @@
                 <div class="grid grid-cols-7">
                     <template x-for="(cell, i) in calendarDays" :key="i">
                         <div @click="cell.day && (selectedDate = cell.date)"
-                             class="min-h-[100px] border-b border-r border-gray-50 p-2 transition-colors duration-150"
+                             class="min-h-25 border-b border-r border-gray-50 p-2 transition-colors duration-150"
                              :class="{
                                  'bg-blue-50/50': selectedDate === cell.date,
                                  'hover:bg-gray-50 cursor-pointer': cell.day,

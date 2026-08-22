@@ -17,7 +17,7 @@
             {{-- Logo --}}
             <a href="{{ route('home') }}" class="flex items-center gap-2.5 group">
                 {{-- Logo Image --}}
-                <div class="w-9 h-9 relative flex-shrink-0">
+                <div class="w-9 h-9 relative shrink-0">
                     <img src="{{ asset('images/logo-zenit.png') }}" alt="HMSE Logo" class="w-full h-full object-contain">
                 </div>
                 <div class="hidden sm:block">

@@ -30,7 +30,9 @@ class StorageHelper
         // 1. Try Signed Temporary URL on S3 (Supabase Private Storage)
         if ($defaultDisk === 's3' || env('FILESYSTEM_DISK') === 's3') {
             try {
-                return Storage::disk('s3')->temporaryUrl($path, now()->addMinutes($expirationMinutes));
+                /** @var \Illuminate\Filesystem\FilesystemAdapter $s3Disk */
+                $s3Disk = Storage::disk('s3');
+                return $s3Disk->temporaryUrl($path, now()->addMinutes($expirationMinutes));
             } catch (\Throwable $e) {
                 // If S3 temporaryUrl fails or is unsupported, fallback to server proxy route
                 return route('storage.proxy', ['path' => $path]);
@@ -39,11 +41,15 @@ class StorageHelper
 
         // 2. Local / Testing Environment
         try {
-            return Storage::temporaryUrl($path, now()->addMinutes($expirationMinutes));
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $localDisk */
+            $localDisk = Storage::disk();
+            return $localDisk->temporaryUrl($path, now()->addMinutes($expirationMinutes));
         } catch (\Throwable $e) {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $publicDisk */
+            $publicDisk = Storage::disk('public');
             // Check if file exists in local storage
-            if (Storage::disk('public')->exists($path)) {
-                return Storage::disk('public')->url($path);
+            if ($publicDisk->exists($path)) {
+                return $publicDisk->url($path);
             }
             return route('storage.proxy', ['path' => $path]);
         }

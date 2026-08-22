@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,40 +14,43 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run()
+    public function run(): void
     {
-        DB::table('roles')->updateOrInsert([
-            'id' => 1,
-            'name' => 'Admin',
-        ]);  
+        // 1. Roles Dasar
+        DB::table('roles')->updateOrInsert(
+            ['id' => 1],
+            ['name' => 'Admin', 'created_at' => now(), 'updated_at' => now()]
+        );
         
-        \App\Models\Role::create([
-            'id' => 2,
-            'name' => 'Pengurus',
-        ]); 
-    
-        // Akun Admin
+        DB::table('roles')->updateOrInsert(
+            ['id' => 2],
+            ['name' => 'Pengurus', 'created_at' => now(), 'updated_at' => now()]
+        );
+
+        // 2. Akun Admin Utama
         DB::table('users')->updateOrInsert(
             ['email' => 'admin@hmse.ac.id'],
             [
-                'name' => 'Admin HMSE',
-                'email' => 'admin@hmse.ac.id',
-                'password' => bcrypt('adminHMSE2026!'),
-                'role_id' => 1,
-                'role' => 'admin',
-                'jabatan' => 'admin',
-                'divisi' => 'Administrasi',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'name'              => 'Admin HMSE',
+                'email'             => 'admin@hmse.ac.id',
+                'password'          => Hash::make('adminHMSE2026!'),
+                'role'              => 'admin',
+                'role_id'           => 1,
+                'jabatan'           => 'admin',
+                'divisi'            => 'Administrasi',
+                'nim_nip'           => 'ADMIN001',
+                'email_verified_at' => now(),
+                'created_at'        => now(),
+                'updated_at'        => now(),
             ]
         );
 
-        // Akun Pengurus
-        \App\Models\User::create([
-            'name' => 'Pengurus HMSE',
-            'email' => 'pengurus@example.com',
-            'password' => bcrypt('password123'),
-            'role_id' => 2,
+        // 3. Panggil Seeder Tambahan (SOTK & Akun Pengurus)
+        $this->call([
+            UserSeeder::class,
+            // Uncomment seeder berikut jika ingin mengisi data dummy untuk keperluan referensi/testing:
+            // ProgramKerjaSeeder::class,
+            // ProposalSeeder::class,
         ]);
     }
 }

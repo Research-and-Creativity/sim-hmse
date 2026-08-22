@@ -1,9 +1,9 @@
 <x-layouts.public title="{{ $event->name }}" description="{{ Str::limit($event->description, 160) }}">
 
     {{-- Header --}}
-    <section class="pt-28 pb-10 bg-gradient-to-br from-[#0f2044] via-[#1e3a5f] to-[#2e86ab] relative overflow-hidden">
+    <section class="pt-28 pb-10 bg-linear-to-br from-[#0f2044] via-hmse-primary to-hmse-secondary relative overflow-hidden">
         <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute top-0 right-0 w-96 h-96 bg-[#2e86ab]/20 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl"></div>
+            <div class="absolute top-0 right-0 w-96 h-96 bg-hmse-secondary/20 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl"></div>
         </div>
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             {{-- Breadcrumb --}}
@@ -33,7 +33,7 @@
                     {{ $event->division }}
                 </span>
                 @if($isOpen)
-                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-[#f4a261] text-white animate-pulse">
+                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-hmse-accent text-white animate-pulse">
                         ✦ Pendaftaran Dibuka
                     </span>
                 @endif
@@ -52,7 +52,7 @@
             {{-- Success Alert --}}
             @if(session('success'))
                 <div class="mb-6 flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-xl text-green-800">
-                    <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 shrink-0 mt-0.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <p class="text-sm font-medium">{{ session('success') }}</p>
@@ -69,7 +69,7 @@
                         @if($event->poster)
                             <img src="{{ \App\Services\StorageHelper::url($event->poster) }}"
                                  alt="Poster {{ $event->name }}"
-                                 class="w-full object-cover max-h-[480px]">
+                                 class="w-full object-cover max-h-120">
                         @else
                             <div class="w-full aspect-video flex items-center justify-center"
                                  style="background: linear-gradient(135deg, {{ $event->color ?? '#2C3DA6' }}18, {{ $event->color ?? '#2C3DA6' }}35)">
@@ -85,8 +85,8 @@
 
                     {{-- Informasi Event --}}
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                        <h2 class="text-lg font-bold text-[#1e3a5f] mb-5 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-[#2e86ab]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <h2 class="text-lg font-bold text-hmse-primary mb-5 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-hmse-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                             Informasi Event
@@ -95,8 +95,8 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {{-- Tanggal --}}
                             <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
-                                <div class="w-9 h-9 bg-[#2e86ab]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4.5 h-4.5 text-[#2e86ab]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-9 h-9 bg-hmse-secondary/10 rounded-lg flex items-center justify-center shrink-0">
+                                    <svg class="w-4.5 h-4.5 text-hmse-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
                                 </div>
@@ -113,8 +113,8 @@
 
                             {{-- Lokasi --}}
                             <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
-                                <div class="w-9 h-9 bg-[#2e86ab]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4.5 h-4.5 text-[#2e86ab]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-9 h-9 bg-hmse-secondary/10 rounded-lg flex items-center justify-center shrink-0">
+                                    <svg class="w-4.5 h-4.5 text-hmse-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
@@ -127,8 +127,8 @@
 
                             {{-- Peserta --}}
                             <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
-                                <div class="w-9 h-9 bg-[#2e86ab]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4.5 h-4.5 text-[#2e86ab]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-9 h-9 bg-hmse-secondary/10 rounded-lg flex items-center justify-center shrink-0">
+                                    <svg class="w-4.5 h-4.5 text-hmse-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
                                 </div>
@@ -141,7 +141,7 @@
                                     @if($quota)
                                         <div class="mt-1.5 w-full bg-gray-200 rounded-full h-1.5">
                                             <div class="h-1.5 rounded-full transition-all duration-500
-                                                {{ $isFull ? 'bg-red-500' : 'bg-[#2e86ab]' }}"
+                                                {{ $isFull ? 'bg-red-500' : 'bg-hmse-secondary' }}"
                                                  style="width: {{ min(100, ($registrationCount / $quota) * 100) }}%"></div>
                                         </div>
                                     @endif
@@ -151,8 +151,8 @@
                             {{-- Batas Daftar --}}
                             @if($event->registration_deadline)
                                 <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
-                                    <div class="w-9 h-9 bg-[#f4a261]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4.5 h-4.5 text-[#f4a261]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="w-9 h-9 bg-hmse-accent/10 rounded-lg flex items-center justify-center shrink-0">
+                                        <svg class="w-4.5 h-4.5 text-hmse-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
                                     </div>
@@ -170,8 +170,8 @@
                     {{-- Deskripsi --}}
                     @if($event->description)
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                            <h2 class="text-lg font-bold text-[#1e3a5f] mb-4 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#2e86ab]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <h2 class="text-lg font-bold text-hmse-primary mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-hmse-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
                                 Deskripsi
@@ -191,7 +191,7 @@
                         @if($isOpen)
                             {{-- Form Pendaftaran --}}
                             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                                <div class="bg-gradient-to-r from-[#1e3a5f] to-[#2e86ab] px-6 py-5">
+                                <div class="bg-linear-to-r from-hmse-primary to-hmse-secondary px-6 py-5">
                                     <h3 class="text-white font-bold text-lg">Daftar Sekarang</h3>
                                     <p class="text-white/70 text-sm mt-0.5">Isi form berikut untuk mendaftar</p>
                                 </div>
@@ -215,7 +215,7 @@
                                         </label>
                                         <input id="reg-name" type="text" name="name" value="{{ old('name') }}"
                                                placeholder="Nama lengkap kamu"
-                                               class="w-full px-3 py-2.5 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2e86ab]/30 focus:border-[#2e86ab] transition-all
+                                               class="w-full px-3 py-2.5 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-hmse-secondary/30 focus:border-hmse-secondary transition-all
                                                {{ $errors->has('name') ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50' }}">
                                     </div>
 
@@ -224,7 +224,7 @@
                                         <label for="reg-nim" class="block text-xs font-semibold text-gray-700 mb-1">NIM</label>
                                         <input id="reg-nim" type="text" name="nim" value="{{ old('nim') }}"
                                                placeholder="Nomor Induk Mahasiswa"
-                                               class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#2e86ab]/30 focus:border-[#2e86ab] transition-all">
+                                               class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-hmse-secondary/30 focus:border-hmse-secondary transition-all">
                                     </div>
 
                                     {{-- Email --}}
@@ -234,7 +234,7 @@
                                         </label>
                                         <input id="reg-email" type="email" name="email" value="{{ old('email') }}"
                                                placeholder="email@example.com"
-                                               class="w-full px-3 py-2.5 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2e86ab]/30 focus:border-[#2e86ab] transition-all
+                                               class="w-full px-3 py-2.5 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-hmse-secondary/30 focus:border-hmse-secondary transition-all
                                                {{ $errors->has('email') ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-gray-50' }}">
                                     </div>
 
@@ -243,7 +243,7 @@
                                         <label for="reg-phone" class="block text-xs font-semibold text-gray-700 mb-1">No. HP / WhatsApp</label>
                                         <input id="reg-phone" type="text" name="phone" value="{{ old('phone') }}"
                                                placeholder="08xxxxxxxxxx"
-                                               class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#2e86ab]/30 focus:border-[#2e86ab] transition-all">
+                                               class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-hmse-secondary/30 focus:border-hmse-secondary transition-all">
                                     </div>
 
                                     {{-- Prodi & Semester --}}
@@ -252,12 +252,12 @@
                                             <label for="reg-prodi" class="block text-xs font-semibold text-gray-700 mb-1">Program Studi</label>
                                             <input id="reg-prodi" type="text" name="prodi" value="{{ old('prodi') }}"
                                                    placeholder="Prodi kamu"
-                                                   class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#2e86ab]/30 focus:border-[#2e86ab] transition-all">
+                                                   class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-hmse-secondary/30 focus:border-hmse-secondary transition-all">
                                         </div>
                                         <div>
                                             <label for="reg-semester" class="block text-xs font-semibold text-gray-700 mb-1">Semester</label>
                                             <select id="reg-semester" name="semester"
-                                                    class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#2e86ab]/30 focus:border-[#2e86ab] transition-all">
+                                                    class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-hmse-secondary/30 focus:border-hmse-secondary transition-all">
                                                 <option value="">—</option>
                                                 @for($s = 1; $s <= 8; $s++)
                                                     <option value="{{ $s }}" {{ old('semester') == $s ? 'selected' : '' }}>{{ $s }}</option>
@@ -271,11 +271,11 @@
                                         <label for="reg-note" class="block text-xs font-semibold text-gray-700 mb-1">Catatan (opsional)</label>
                                         <textarea id="reg-note" name="note" rows="3"
                                                   placeholder="Pertanyaan atau hal yang ingin disampaikan..."
-                                                  class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#2e86ab]/30 focus:border-[#2e86ab] transition-all resize-none">{{ old('note') }}</textarea>
+                                                  class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-hmse-secondary/30 focus:border-hmse-secondary transition-all resize-none">{{ old('note') }}</textarea>
                                     </div>
 
                                     <button type="submit"
-                                            class="w-full py-3 bg-gradient-to-r from-[#1e3a5f] to-[#2e86ab] text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity duration-200 flex items-center justify-center gap-2">
+                                            class="w-full py-3 bg-linear-to-r from-hmse-primary to-hmse-secondary text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity duration-200 flex items-center justify-center gap-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>

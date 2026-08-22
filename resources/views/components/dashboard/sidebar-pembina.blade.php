@@ -18,9 +18,9 @@
     ]"
 >
     {{-- Logo Area with Collapse Toggle --}}
-    <div class="flex items-center justify-between h-16 px-4 border-b border-gray-100 flex-shrink-0">
+    <div class="flex items-center justify-between h-16 px-4 border-b border-gray-100 shrink-0">
         <a href="{{ route('pembina.dashboard') }}" class="flex items-center gap-3 overflow-hidden">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
                 <img src="{{ asset('images/logo-zenit.png') }}" alt="HMSE Logo" class="w-full h-full object-contain">
             </div>
             <div x-show="sidebarOpen" x-transition:enter="transition-opacity duration-200" class="overflow-hidden">
@@ -34,7 +34,7 @@
         {{-- Collapse Toggle --}}
         <button
             @click="sidebarOpen = !sidebarOpen"
-            class="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-[{{ $themeColor }}] hover:{{ $themeBg }} transition-all duration-200 flex-shrink-0"
+            class="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-[{{ $themeColor }}] hover:{{ $themeBg }} transition-all duration-200 shrink-0"
             title="Toggle Sidebar"
         >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,13 +48,13 @@
          {{ auth()->user()?->jabatan === 'kaprodi' ? 'bg-violet-50/50' : 'bg-cyan-50/50' }}">
         <div class="flex items-center gap-2">
             @if(auth()->user()?->jabatan === 'kaprodi')
-                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-[#7c3aed] to-[#5b21b6] flex items-center justify-center flex-shrink-0">
+                <div class="w-6 h-6 rounded-full bg-linear-to-br from-[#7c3aed] to-[#5b21b6] flex items-center justify-center shrink-0">
                     <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 7v-7m9-5v7M3 9v7"/>
                     </svg>
                 </div>
             @else
-                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-[#00C4D8] to-[#0891b2] flex items-center justify-center flex-shrink-0">
+                <div class="w-6 h-6 rounded-full bg-linear-to-br from-[#00C4D8] to-[#0891b2] flex items-center justify-center shrink-0">
                     <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                     </svg>
@@ -79,7 +79,7 @@
         <a href="{{ route('pembina.dashboard') }}"
            class="group flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200
                   {{ request()->routeIs('pembina.dashboard') ? "$themeBg $themeText" : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700' }}">
-            <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('pembina.dashboard') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
+            <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('pembina.dashboard') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
@@ -91,7 +91,7 @@
         <a href="{{ route('pembina.proker') }}"
            class="group flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200
                   {{ request()->routeIs('pembina.proker*') ? "$themeBg $themeText" : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700' }}">
-            <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('pembina.proker*') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
+            <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('pembina.proker*') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
@@ -103,7 +103,7 @@
         <a href="{{ route('pembina.calendar') }}"
            class="group flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200
                   {{ request()->routeIs('pembina.calendar') ? "$themeBg $themeText" : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700' }}">
-            <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('pembina.calendar') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
+            <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('pembina.calendar') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -115,7 +115,7 @@
         <a href="{{ route('pembina.proposal') }}"
            class="group flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200
                   {{ request()->routeIs('pembina.proposal*') ? "$themeBg $themeText" : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700' }}">
-            <div class="relative flex-shrink-0">
+            <div class="relative shrink-0">
                 <svg class="w-5 h-5 {{ request()->routeIs('pembina.proposal*') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
                      fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -146,7 +146,7 @@
         <a href="{{ route('pembina.keuangan') }}"
            class="group flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200
                   {{ request()->routeIs('pembina.keuangan*') ? "$themeBg $themeText" : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700' }}">
-            <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('pembina.keuangan*') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
+            <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('pembina.keuangan*') ? $themeText : 'text-gray-400 group-hover:text-gray-600' }}"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -159,7 +159,7 @@
             <p x-show="sidebarOpen" class="px-3 mb-2 text-[10px] font-bold text-[#2C3DA6] uppercase tracking-widest">Portal Utama</p>
             <a href="{{ route('dashboard') }}"
                class="group flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-gray-600 hover:bg-blue-50 hover:text-[#2C3DA6] transition-all duration-200">
-                <svg class="w-5 h-5 flex-shrink-0 text-gray-400 group-hover:text-[#2C3DA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 shrink-0 text-gray-400 group-hover:text-[#2C3DA6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                 </svg>
                 <span x-show="sidebarOpen" x-transition:enter="transition-opacity duration-150">Dashboard Pengurus</span>
@@ -169,12 +169,12 @@
     </nav>
 
     {{-- Bottom: Logout --}}
-    <div class="p-3 border-t border-gray-100 flex-shrink-0">
+    <div class="p-3 border-t border-gray-100 shrink-0">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"
                     class="group flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:bg-red-50 hover:text-red-500 transition-all duration-200">
-                <svg class="w-5 h-5 flex-shrink-0 group-hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 shrink-0 group-hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                 </svg>

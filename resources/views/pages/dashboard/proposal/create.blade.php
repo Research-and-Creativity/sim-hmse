@@ -74,7 +74,7 @@
                                     (isComplete(s.id) ? 'text-emerald-600 hover:bg-emerald-50' :
                                         'text-gray-500 hover:bg-gray-50')">
                                 {{-- Number/Check --}}
-                                <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
+                                <div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
                                     :class="isComplete(s.id) ?
                                         'bg-emerald-100 text-emerald-600' :
                                         (activeSection === s.id ? 'bg-[#2C3DA6] text-white' :
@@ -131,8 +131,8 @@
 
                 {{-- Template Header Info --}}
                 <div
-                    class="bg-gradient-to-r from-[#2C3DA6]/5 to-[#00C4D8]/5 rounded-xl border border-[#2C3DA6]/10 p-4 flex items-start gap-3">
-                    <svg class="w-5 h-5 text-[#2C3DA6] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                    class="bg-linear-to-r from-[#2C3DA6]/5 to-[#00C4D8]/5 rounded-xl border border-[#2C3DA6]/10 p-4 flex items-start gap-3">
+                    <svg class="w-5 h-5 text-[#2C3DA6] shrink-0 mt-0.5" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

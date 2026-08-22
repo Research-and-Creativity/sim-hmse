@@ -176,7 +176,7 @@
 
                             <div class="flex items-start gap-3 mb-3">
                                 @if ($doc->file_type !== 'img')
-                                    <div class="w-11 h-11 rounded-xl {{ $ic['bg'] }} flex items-center justify-center flex-shrink-0">
+                                    <div class="w-11 h-11 rounded-xl {{ $ic['bg'] }} flex items-center justify-center shrink-0">
                                         <span class="text-xs font-black {{ $ic['text'] }}">{{ $ic['icon'] }}</span>
                                     </div>
                                 @endif
@@ -230,17 +230,17 @@
                 <div class="flex items-start justify-between border-b border-gray-100 pb-3 gap-3">
                     <div class="min-w-0 flex-1">
                         <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1.5" :class="activeDoc?.badge || 'bg-gray-100 text-gray-700'" x-text="activeDoc?.category"></span>
-                        <h3 class="text-base font-bold text-gray-800 break-words" x-text="activeDoc?.name"></h3>
+                        <h3 class="text-base font-bold text-gray-800 wrap-break-word" x-text="activeDoc?.name"></h3>
                     </div>
-                    <button @click="detailOpen = false" class="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg flex-shrink-0">
+                    <button @click="detailOpen = false" class="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg shrink-0">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
 
                 {{-- Preview Media --}}
-                <div class="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden flex items-center justify-center min-h-[160px] max-h-[260px]">
+                <div class="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden flex items-center justify-center min-h-40 max-h-65">
                     <template x-if="activeDoc?.file_type === 'img'">
-                        <img :src="activeDoc?.url" :alt="activeDoc?.name" class="w-full h-full max-h-[260px] object-contain p-2">
+                        <img :src="activeDoc?.url" :alt="activeDoc?.name" class="w-full h-full max-h-65 object-contain p-2">
                     </template>
                     <template x-if="activeDoc?.file_type !== 'img'">
                         <div class="text-center p-6">

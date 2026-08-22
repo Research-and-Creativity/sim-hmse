@@ -224,7 +224,7 @@ class DashboardController extends Controller
     // ─── Proposal ────────────────────────────────────
     public function proposalIndex()
     {
-        $proposals = \App\Models\Proposal::latest()->get();
+        $proposals = Proposal::latest()->get();
         return view('pages.dashboard.proposal.index', compact('proposals'));
     }
 
@@ -235,7 +235,7 @@ class DashboardController extends Controller
 
     public function proposalShow(string $id)
     {
-        $proposal = \App\Models\Proposal::findOrFail($id);
+        $proposal = Proposal::findOrFail($id);
 
         $signedCount = match($proposal->status) {
             'draft'     => 0,
@@ -252,13 +252,13 @@ class DashboardController extends Controller
     public function proposalPreview(string $id)
     {
         try {
-            $proposal = \App\Models\Proposal::findOrFail($id);
+            $proposal = Proposal::findOrFail($id);
 
             $sotk = [
-                'ketua_hmse' => \App\Models\User::whereIn('jabatan', ['ketua_hmse', 'President'])->first(),
-                'sekretaris' => \App\Models\User::whereIn('jabatan', ['sekretaris', 'Secretary 1', 'Secretary 2'])->first(),
-                'pembina' => \App\Models\User::where('jabatan', 'pembina')->first(),
-                'kaprodi' => \App\Models\User::where('jabatan', 'kaprodi')->first(),
+                'ketua_hmse' => User::whereIn('jabatan', ['ketua_hmse', 'President'])->first(),
+                'sekretaris' => User::whereIn('jabatan', ['sekretaris', 'Secretary 1', 'Secretary 2'])->first(),
+                'pembina' => User::where('jabatan', 'pembina')->first(),
+                'kaprodi' => User::where('jabatan', 'kaprodi')->first(),
             ];
 
             $approvals = $proposal->approvals()->with('approver')->get()->keyBy('approver_role');
@@ -565,11 +565,15 @@ class DashboardController extends Controller
     {
         $cleanPath = ltrim(urldecode($path), '/');
 
-        if (!Storage::exists($cleanPath)) {
-            // Also check public disk fallback
-            if (Storage::disk('public')->exists($cleanPath)) {
-                $mimeType = Storage::disk('public')->mimeType($cleanPath) ?: 'application/octet-stream';
-                $fileStream = Storage::disk('public')->readStream($cleanPath);
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        $disk = Storage::disk();
+
+        if (!$disk->exists($cleanPath)) {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $publicDisk */
+            $publicDisk = Storage::disk('public');
+            if ($publicDisk->exists($cleanPath)) {
+                $mimeType = $publicDisk->mimeType($cleanPath) ?: 'application/octet-stream';
+                $fileStream = $publicDisk->readStream($cleanPath);
                 return response()->stream(function () use ($fileStream) {
                     fpassthru($fileStream);
                     if (is_resource($fileStream)) {
@@ -584,8 +588,8 @@ class DashboardController extends Controller
             abort(404, 'File tidak ditemukan di penyimpanan.');
         }
 
-        $mimeType = Storage::mimeType($cleanPath) ?: 'application/octet-stream';
-        $fileStream = Storage::readStream($cleanPath);
+        $mimeType = $disk->mimeType($cleanPath) ?: 'application/octet-stream';
+        $fileStream = $disk->readStream($cleanPath);
 
         return response()->stream(function () use ($fileStream) {
             fpassthru($fileStream);

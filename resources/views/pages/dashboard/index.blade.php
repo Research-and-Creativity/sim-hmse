@@ -86,7 +86,7 @@
                 @forelse ($prokerTerbaru as $proker)
                     <div class="flex items-center justify-between px-6 py-3.5 hover:bg-gray-50/50 transition-colors duration-200">
                         <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-2 h-2 rounded-full flex-shrink-0
+                            <div class="w-2 h-2 rounded-full shrink-0
                                 {{ $proker->status === 'on-progress' ? 'bg-blue-500 animate-pulse' :
                                    ($proker->status === 'completed' ? 'bg-emerald-500' :
                                    ($proker->status === 'preparation' ? 'bg-amber-500' : 'bg-gray-300')) }}">
@@ -170,7 +170,7 @@
             <div class="space-y-4">
                 @forelse ($recentActivities as $activity)
                     <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-{{ $activity['color'] }}-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div class="w-8 h-8 rounded-lg bg-{{ $activity['color'] }}-50 flex items-center justify-center shrink-0 mt-0.5">
                             @if($activity['icon'] === 'check')
                                 <svg class="w-4 h-4 text-{{ $activity['color'] }}-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             @elseif($activity['icon'] === 'upload')
