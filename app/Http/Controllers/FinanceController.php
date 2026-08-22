@@ -86,12 +86,12 @@ class FinanceController extends Controller
             }
         } else {
             $chartDataRaw = FinanceInternal::select(
-                    DB::raw("DATE_FORMAT(transaction_date, '%b') as month_name"),
+                    DB::raw("TO_CHAR(transaction_date, 'Mon') as month_name"),
                     DB::raw("SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as total_income"),
                     DB::raw("SUM(CASE WHEN type = 'outcome' THEN amount ELSE 0 END) as total_outcome")
                 )
-                ->groupBy(DB::raw("DATE_FORMAT(transaction_date, '%Y-%m')"), 'month_name')
-                ->orderBy(DB::raw("DATE_FORMAT(transaction_date, '%Y-%m')"), 'desc')
+                ->groupBy(DB::raw("TO_CHAR(transaction_date, 'YYYY-MM')"), 'month_name')
+                ->orderBy(DB::raw("TO_CHAR(transaction_date, 'YYYY-MM')"), 'desc')
                 ->limit(6)
                 ->get()
                 ->reverse()
