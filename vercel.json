@@ -1,9 +1,8 @@
 {
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "installCommand": "",
     "functions": {
-        "api/index.php": {
-            "runtime": "vercel-php@0.9.0"
-        },
-        "api/test.php": {
+        "api/*.php": {
             "runtime": "vercel-php@0.9.0"
         }
     },
