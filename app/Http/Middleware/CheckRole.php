@@ -18,15 +18,25 @@ class CheckRole
     {
         $user = $request->user();
 
+        // Jika belum login, redirect ke halaman login
         if (! $user) {
             return redirect()->guest(route('login'));
         }
 
-        // Periksa apakah role user terdaftar dalam parameter roles yang diizinkan (atau admin yang memiliki akses penuh)
+        // Periksa apakah role user terdaftar dalam parameter roles yang diizinkan (atau role admin yang memiliki akses penuh)
         if (in_array($user->role, $roles) || $user->role === 'admin') {
             return $next($request);
         }
 
-        abort(403, 'Akses Ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
+        // Jika user sudah login namun role tidak sesuai, redirect ke dashboard masing-masing dengan flash error
+        if (in_array($user->role, ['pembina', 'kaprodi']) || in_array($user->jabatan, ['pembina', 'kaprodi'])) {
+            return redirect()
+                ->route('pembina.dashboard')
+                ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+        }
+
+        return redirect()
+            ->route('dashboard')
+            ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
     }
 }
