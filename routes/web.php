@@ -77,11 +77,14 @@ Route::prefix('dashboard')->name('dashboard')->group(function () {
 
     // Keuangan
     Route::prefix('/finance')->name('.finance')->group(function () {
-        // Use existing controller method names: `index`, `create`, `store`.
-        // The controller's `index` handles both internal and proker views via query params.
         Route::get('/', [FinanceController::class, 'index'])->name('.index');
-        Route::get('/transaction', [FinanceController::class, 'create'])->name('.transaction');
-        Route::post('/transaction', [FinanceController::class, 'store'])->name('.store');
+        Route::get('/create', [FinanceController::class, 'create'])->name('.create');
+        Route::post('/', [FinanceController::class, 'store'])->name('.store');
+        Route::get('/{id}/edit', [FinanceController::class, 'edit'])->name('.edit');
+        Route::put('/{id}', [FinanceController::class, 'update'])->name('.update');
+        Route::delete('/{id}', [FinanceController::class, 'destroy'])->name('.destroy');
+        Route::get('/export', [FinanceController::class, 'export'])->name('.export');
+        
         // Map internal/proker routes to the same `index` handler which reads `tab` or `proker_id`.
         Route::get('/internal', [FinanceController::class, 'index'])->name('.internal');
         Route::get('/proker', [FinanceController::class, 'index'])->name('.proker');
@@ -168,15 +171,3 @@ Route::post('/proposal/preview', [ProposalController::class, 'preview'])
 Route::post('/proposal/download-docx', [ProposalController::class, 'downloadPreviewDocx'])
     ->name('dashboard.proposal.download-docx');
 
-/*
-|--------------------------------------------------------------------------
-| Keuangan
-|--------------------------------------------------------------------------
-*/
-Route::get('/dashboard/finance', [FinanceController::class, 'index'])->name('dashboard.finance.index');
-Route::get('/dashboard/finance/create', [FinanceController::class, 'create'])->name('dashboard.finance.create');
-Route::post('/dashboard/finance', [FinanceController::class, 'store'])->name('dashboard.finance.store');
-Route::get('/dashboard/finance/{id}/edit', [FinanceController::class, 'edit'])->name('dashboard.finance.edit');
-Route::put('/dashboard/finance/{id}', [FinanceController::class, 'update'])->name('dashboard.finance.update');
-Route::delete('/dashboard/finance/{id}', [FinanceController::class, 'destroy'])->name('dashboard.finance.destroy');
-Route::get('/dashboard/finance/export', [FinanceController::class, 'export'])->name('dashboard.finance.export');
